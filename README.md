@@ -10,3 +10,7 @@ This code is very alpha.  To see it work, at the moment, do:
 ```
 $ go run ./main.go testing.template < testing.json
 ```
+
+$$ Template Syntax
+
+Temple uses GO [Text Templates](https://golang.org/pkg/text/template/).
