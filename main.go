@@ -11,10 +11,6 @@ import (
 type dataContainer struct {
 }
 
-func (_ dataContainer) Getenv(name string) string {
-	return os.Getenv(name)
-}
-
 func main() {
 	temple := buildTemplate()
 
