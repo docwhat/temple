@@ -57,8 +57,10 @@ func buildTemplate() *template.Template {
 		log.Fatal(err)
 	}
 
+	// TODO: Support using html/template too?
 	temple := template.New(os.Args[1]).Funcs(funcMap).Option("missingkey=zero")
 
+	// TODO: When I get to command line parsing, extra templates can be specified here
 	// if _, err := temple.ParseFiles(os.Args[1]); err != nil {
 	//   log.Fatal(err)
 	// }
