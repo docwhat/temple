@@ -1,0 +1,10 @@
+{
+  "name": "joecool",
+  "mouse": "squeek",
+  "answer": 42,
+  "happy": true,
+  "ary": [
+    "red",
+    "blue"
+  ]
+}
