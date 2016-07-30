@@ -36,6 +36,12 @@ func main() {
 		Required().
 		ExistingFileVar(&config.TemplateFile)
 
+	// Handle case where no arguments were presented.
+	if len(os.Args) == 1 {
+		kingpin.Usage()
+		os.Exit(1)
+	}
+
 	kingpin.Parse()
 
 	funcMap := buildFuncMap(config.DataFile)
