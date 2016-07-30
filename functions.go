@@ -26,7 +26,10 @@ func dataFunc(dataFileName string) func() map[string]interface{} {
 	var v map[string]interface{}
 
 	if dataFileName != "" {
-		dec := json.NewDecoder(safeOpen(dataFileName))
+		file := safeOpen(dataFileName)
+		defer file.Close()
+
+		dec := json.NewDecoder(file)
 		if err := dec.Decode(&v); err != nil {
 			log.Fatalf("Unable to parse %s: %s", dataFileName, err)
 		}

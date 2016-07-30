@@ -1,12 +1,11 @@
 package main
 
 import (
-	"io"
 	"log"
 	"os"
 )
 
-func safeOpen(path string) io.Reader {
+func safeOpen(path string) *os.File {
 	file, err := os.Open(path)
 	if err != nil {
 		log.Fatalf("Unable to open %s: %s", path, err)

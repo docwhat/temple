@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"path"
 	"text/template"
 
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
@@ -40,7 +41,7 @@ func main() {
 	funcMap := buildFuncMap(config.DataFile)
 
 	// TODO: Support using html/template too?
-	template := template.New(config.TemplateFile).Funcs(funcMap).Option("missingkey=zero")
+	template := template.New(path.Base(config.TemplateFile)).Funcs(funcMap).Option("missingkey=zero")
 
 	// TODO: When I get to command line parsing, extra templates can be specified here
 	// if _, err := temple.ParseFiles(os.Args[1]); err != nil {
