@@ -8,11 +8,11 @@ notifications:
     on_failure: always
 
 before_install:
-  - ./setup.sh
+  - script/bootstrap
 
 script:
-  - ./test.sh
-  - ./build.sh all
+  - script/test
+  - script/build all
 
 # after_success:
 #   - bash <(curl -s https://codecov.io/bash)
