@@ -1,0 +1,33 @@
+Test template
+=============
+
+This is used to exercise most or all of the features.
+
+Functions
+---------
+
+-   Host name: `{{hostname}}`
+-   User ID: `{{uid}}`
+-   Group ID: `{{gid}}`
+-   Effective User ID: `{{euid}}`
+-   Effective Group ID: `{{egid}}`
+-   Current Working Directory: `{{pwd}}`
+
+Environment variables
+---------------------
+
+-   HOME: `{{env "HOME"}}`
+-   USER: `{{env "USER"}}`
+-   TERM: `{{env "TERM"}}`
+-   PATH: `{{env "PATH"}}`
+
+Data
+----
+
+-   `.mouse`: `{{data.mouse}}`
+-   `.answer`: `{{data.answer | printf "%q"}}`
+-   `.happy`: `{{data.happy | printf "%q"}}`
+-   `.ary`: {{range data.ary}}
+    -   `{{.}}`{{end}}
+
+<!-- vim: set ft=pandoc : -->
