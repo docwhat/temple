@@ -8,7 +8,7 @@ variables!
 This code is very alpha.  To see it work, at the moment, do:
 
 ```
-$ go run ./main.go testing.template < testing.json
+$ go run *.go testing.template < testing.json
 ```
 
 $$ Template Syntax

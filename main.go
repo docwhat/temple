@@ -1,71 +1,63 @@
 package main
 
 import (
-	"encoding/json"
 	"io/ioutil"
 	"log"
 	"os"
 	"text/template"
+
+	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
 
-type dataContainer struct {
+// Config stores the configuration from cli flags and environment variables.
+type Config struct {
+	TemplateFile *os.File
+	DataFile     *os.File
 }
 
+// NewConfig initializes a Config object from the cli flags and environment variables.
 func main() {
-	temple := buildTemplate()
+	config := Config{}
 
-	err := temple.Execute(os.Stdout, buildData())
-	if err != nil {
-		log.Fatal(err)
-	}
-}
+	kingpin.CommandLine.Writer(os.Stdout)
+	kingpin.HelpFlag.Short('h')
+	kingpin.CommandLine.Help = "Fast and simple templating engine"
+	kingpin.CommandLine.Author("Christian Höltje")
+	kingpin.Version(version)
 
-func buildData() interface{} {
-	var data dataContainer
-	return data
-}
+	kingpin.
+		Flag("data-file", "A file to use as a data source. Supports: JSON (Env: TEMPLE_DATA_FILE)").
+		Short('f').
+		OverrideDefaultFromEnvar("TEMPLE_DATA_FILE").
+		FileVar(&config.DataFile)
 
-func buildFuncMap() template.FuncMap {
-	funcMap := make(template.FuncMap)
-	funcMap["env"] = os.Getenv
-	funcMap["uid"] = os.Getuid
-	funcMap["gid"] = os.Getgid
-	funcMap["euid"] = os.Geteuid
-	funcMap["egid"] = os.Getegid
-	funcMap["pwd"] = os.Getwd
-	funcMap["hostname"] = os.Hostname
-	funcMap["data"] = dataFunc()
-	return funcMap
-}
+	kingpin.
+		Arg("template", "A Go Template file").
+		Required().
+		FileVar(&config.TemplateFile)
 
-func dataFunc() func() map[string]interface{} {
-	var v map[string]interface{}
+	kingpin.Parse()
 
-	dec := json.NewDecoder(os.Stdin)
-	if err := dec.Decode(&v); err != nil {
-		log.Println(err)
-	}
-
-	return func() map[string]interface{} { return v }
-}
-
-func buildTemplate() *template.Template {
-	funcMap := buildFuncMap()
-
-	fileContents, err := ioutil.ReadFile(os.Args[1])
-	if err != nil {
-		log.Fatal(err)
-	}
+	funcMap := buildFuncMap(config.DataFile)
 
 	// TODO: Support using html/template too?
-	temple := template.New(os.Args[1]).Funcs(funcMap).Option("missingkey=zero")
+	template := template.New(config.TemplateFile.Name()).Funcs(funcMap).Option("missingkey=zero")
+
+	fileContents, err := ioutil.ReadAll(config.TemplateFile)
+	if err != nil {
+		log.Fatalf("Unable to read data file: %s", err)
+	}
 
 	// TODO: When I get to command line parsing, extra templates can be specified here
 	// if _, err := temple.ParseFiles(os.Args[1]); err != nil {
 	//   log.Fatal(err)
 	// }
-	if _, err := temple.Parse(string(fileContents)); err != nil {
-		log.Fatal(err)
+	if _, err := template.Parse(string(fileContents)); err != nil {
+		log.Fatalf("Failed to parse: %s", err)
 	}
-	return temple
+
+	err = template.Execute(os.Stdout, buildData())
+	if err != nil {
+		log.Fatalf("Unable to run your template: %s", err)
+	}
 }
