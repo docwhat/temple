@@ -14,26 +14,25 @@ script:
   - script/test
   - script/build all
 
-# after_success:
-#   - bash <(curl -s https://codecov.io/bash)
+before_deploy:
+  - sha256sum temple_* > checksums.sha256
 
-# before_deploy:
-#   - sha256sum temple_* > checksums.sha256
-
-# deploy:
-#   skip_cleanup: true
-#   provider: releases
-#   file:
-#     - checksums.sha256
-#     - temple_darwin_amd64
-#     - temple_freebsd_arm
-#     - temple_linux_386
-#     - temple_linux_amd64
-#     - temple_linux_arm
-#     - temple_linux_ppc64le
-#     - temple_netbsd_arm
-#     - temple_windows_386.exe
-#     - temple_windows_amd64.exe
-#   on:
-#     tags: true
-#     repo: docwhat/temple
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: xI+WhF9AAg6H3bhBSlwcU0q55ZalgePxqqmAbFm0y0ecjnRsHXLayPwQywueqq3OsoyS8jMGd3QXxfYOrNtjfZMqG3brUnsuZHJ8h+o3rs827Cf4ViRO5InUlutYbGHla0f5KWPDy5PXlBYTy51qSHHfbEqttDqloEEKORkSclvM0tFUn3zeBLGDPyC6rFxisyu26d7r36h5qnxDQG0ZuORDF43ZAxG1v4oSILnuxC5eee+ZDVd4D5NPKOFazWd+DkfH1HfOrJVNhnLjJvzxPVDFTttzmW1+mheqCfmKszCS/3h9SZzWBG/uYjOdvdJvA6pRrG/vltDo8vM9H7NslHm+8nnLujum7xtdTRAjdHFT4PO2Lp+lQB1NmewAhei7N1rKCYkL0ZPgo8sPHwT36nATZzT3BoIdkLPBwdvCM6RMhvCc/n5TKYwcK8I9euDhZGrfe6yeXTS9jSrBgdkH351KxKf8hGXNMrWvTD1Q0YFnf6+J+JYUN6ZQ9xrIIbbG7oWnBliUYc6AsolkT0cgbctCNrnha3P5CHdoHqUKQ68NFIX4QPTg3WLhi8BLOvEzwcIRe86wc02/60gKTTRv3W0xyYfQk22Q+VfWa2uO156OGyNEpenUuM/ZlA8nCXEspHbUK7+2dBsH9DpjomRUgnE+xO8snq1PnsqMACT2S7g=
+  file:
+    - checksums.sha256
+    - temple_darwin_amd64
+    - temple_freebsd_arm
+    - temple_linux_386
+    - temple_linux_amd64
+    - temple_linux_arm
+    - temple_linux_ppc64le
+    - temple_netbsd_arm
+    - temple_windows_386.exe
+    - temple_windows_amd64.exe
+  on:
+    tags: true
+    repo: docwhat/temple
