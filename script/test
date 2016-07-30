@@ -7,20 +7,24 @@ set -euo pipefail
 sent_header=f
 colors=$(( $(tput colors 2> /dev/null || :) + 0 ))
 
-header() {
+colorize() {
   if (( colors >= 8 )); then
     tput bold
     tput setaf 4
   fi
-  if [ "$sent_header" = t ]; then
-    echo
-  fi
-  echo "$*"
-  echo '----------------------------------------------------------------'
-  sent_header=t
+  cat -
   if (( colors >= 8 )); then
     tput sgr0
   fi
+}
+
+header() {
+  if [ "$sent_header" = t ]; then
+    echo
+  fi
+  echo "$*" | colorize
+  echo '----------------------------------------------------------------' | colorize
+  sent_header=t
 }
 
 for example in examples/*; do
