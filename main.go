@@ -56,7 +56,7 @@ func main() {
 		log.Fatalf("Failed to parse: %s", err)
 	}
 
-	err = template.Execute(os.Stdout, buildData())
+	err = template.Execute(os.Stdout, struct{}{})
 	if err != nil {
 		log.Fatalf("Unable to run your template: %s", err)
 	}
