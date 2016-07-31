@@ -10,14 +10,14 @@ import (
 )
 
 // Config stores the configuration from cli flags and environment variables.
-type Config struct {
+type appConfig struct {
 	TemplateFile string
 	DataFile     string
 }
 
 // NewConfig initializes a Config object from the cli flags and environment variables.
 func main() {
-	config := Config{}
+	config := appConfig{}
 
 	kingpin.CommandLine.Writer(os.Stdout)
 	kingpin.HelpFlag.Short('h')
