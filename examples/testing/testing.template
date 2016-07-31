@@ -24,10 +24,10 @@ Environment variables
 Data
 ----
 
--   `.mouse`: `{{data.mouse}}`
--   `.answer`: `{{data.answer | printf "%q"}}`
--   `.happy`: `{{data.happy | printf "%q"}}`
--   `.ary`: {{range data.ary}}
+-   `.mouse`: `{{json.mouse}}`
+-   `.answer`: `{{json.answer | printf "%q"}}`
+-   `.happy`: `{{json.happy | printf "%q"}}`
+-   `.ary`: {{range json.ary}}
     -   `{{.}}`{{end}}
 
 <!-- vim: set ft=pandoc : -->

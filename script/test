@@ -32,7 +32,7 @@ for example in examples/*; do
     continue
   fi
   header "Example ${example}"
-  go run ./*.go --data-file "${example}/"*.json "${example}/"*.template
+  go run ./*.go --json-data-file "${example}/"*.json "${example}/"*.template
 done
 
 header "Tests"

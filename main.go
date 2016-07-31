@@ -12,7 +12,7 @@ import (
 // Config stores the configuration from cli flags and environment variables.
 type appConfig struct {
 	TemplateFile string
-	DataFile     string
+	JSONDataFile string
 }
 
 // NewConfig initializes a Config object from the cli flags and environment variables.
@@ -26,10 +26,10 @@ func main() {
 	kingpin.Version(version)
 
 	kingpin.
-		Flag("data-file", "A file to use as a data source. Supports: JSON (Env: TEMPLE_DATA_FILE)").
-		Short('f').
-		OverrideDefaultFromEnvar("TEMPLE_DATA_FILE").
-		ExistingFileVar(&config.DataFile)
+		Flag("json-data-file", "A JSON file to use via the {{json.<foo>}} interface (Env: TEMPLE_JSON_DATA_FILE)").
+		Short('j').
+		OverrideDefaultFromEnvar("TEMPLE_JSON_DATA_FILE").
+		ExistingFileVar(&config.JSONDataFile)
 
 	kingpin.
 		Arg("template", "A Go Template file.").
@@ -44,7 +44,7 @@ func main() {
 
 	kingpin.Parse()
 
-	funcMap := buildFuncMap(config.DataFile)
+	funcMap := buildFuncMap(config.JSONDataFile)
 
 	// TODO: Support using html/template too?
 	template := template.New(path.Base(config.TemplateFile)).Funcs(funcMap).Option("missingkey=zero")
