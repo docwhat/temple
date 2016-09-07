@@ -27,7 +27,11 @@ func dataFunc(jsonDataFileName string) func() map[string]interface{} {
 
 	if jsonDataFileName != "" {
 		file := safeOpen(jsonDataFileName)
-		defer file.Close()
+		defer func() {
+			if err := file.Close(); err != nil {
+				log.Fatalln(err)
+			}
+		}()
 
 		dec := json.NewDecoder(file)
 		if err := dec.Decode(&v); err != nil {

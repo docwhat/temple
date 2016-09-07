@@ -1,47 +1,26 @@
 #!/bin/bash
 #
-# Sets up all the dependencies, etc. so you can build and test.
+# Runs all tests.
 
 set -euo pipefail
+source "$(dirname "$0")/utilities.bash"
 
-sent_header=f
-colors=$(( $(tput colors 2> /dev/null || :) + 0 ))
+header "Tests"
+go test -v
 
-colorize() {
-  if (( colors >= 8 )); then
-    tput bold
-    tput setaf 4
-  fi
-  cat -
-  if (( colors >= 8 )); then
-    tput sgr0
-  fi
-}
-
-header() {
-  if [ "$sent_header" = t ]; then
-    echo
-  fi
-  echo "$*" | colorize
-  echo '----------------------------------------------------------------' | colorize
-  sent_header=t
-}
-
+header "Examples"
 for example in examples/*; do
   if [ ! -d "$example" ]; then
     continue
   fi
   header "Example ${example}"
-  go run ./*.go --json-data-file "${example}/"*.json "${example}/"*.template
+  go run *.go --json-data-file "${example}/"*.json "${example}/"*.template
 done
 
-header "Tests"
-go test -v .
-
-# header "Tests (race detection)"
-# go test -v -race .
-
 header "Linter"
-gometalinter --deadline=1m --disable=gotype
+gometalinter \
+  --deadline=1m \
+  --vendored-linters \
+  --disable=gotype
 
-# EOF
+# vim: set ft=sh :

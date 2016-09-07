@@ -1,33 +1,60 @@
 #!/bin/bash
 #
-# Sets up all the dependencies, etc. so you can build and test.
+# Builds one (or more executable).
+#
+# Usage:
+#   Just your native executable:
+#      ./script/build
+#   All cross compile platforms:
+#      ./script/build all
 
 set -euo pipefail
+source "$(dirname "$0")/utilities.bash"
+progname="temple"
 
+osarch="${1:-native}"
 export CGO_ENABLED=0 # Force static compiling
 
-if [[ "${1:-native}" == *all* ]]; then
+function dogox()
+{
+  gox \
+    -ldflags "-s -w" \
+    -osarch="$*" \
+    -output="${progname}_{{.OS}}_{{.Arch}}"
+}
+
+if [[ "$osarch" == *all* ]]; then
   osarches=(
     darwin/amd64
 
     linux/386
     linux/amd64
+    linux/arm
+    linux/ppc64le
 
     windows/386
     windows/amd64
 
-    linux/arm
     freebsd/arm
-    netbsd/arm
+    freebsd/386
+    freebsd/amd64
 
-    linux/ppc64le
+    netbsd/arm
+    netbsd/386
+    netbsd/amd64
   )
 
+  header "Building all binaries"
   gox \
     -osarch="${osarches[*]}" \
     -output='temple_{{.OS}}_{{.Arch}}'
 else
-  go build -o temple ./*.go
+  header "Building native binary"
+  go build \
+    -v \
+    -ldflags "-s -w" \
+    -o "$progname" \
+    ./*.go
 fi
 
-# EOF
+# vim: set ft=sh :
