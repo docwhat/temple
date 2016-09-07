@@ -13,8 +13,13 @@ for example in examples/*; do
   if [ ! -d "$example" ]; then
     continue
   fi
+
   header "Example ${example}"
-  go run *.go --json-data-file "${example}/"*.json "${example}/"*.template
+  if [ -f "${example}/"*.json ]; then
+    go run *.go --json-data-file "${example}/"*.json "${example}/"*.template
+  else
+    go run *.go "${example}/"*.template
+  fi
 done
 
 header "Linter"
