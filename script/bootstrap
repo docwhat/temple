@@ -9,7 +9,7 @@ header "Fetching utilites"
 go get -u -v \
   github.com/alecthomas/gometalinter \
   github.com/mitchellh/gox \
-  golang.org/x/tools/cmd/cover
+  github.com/kardianos/govendor
 
 header "Installing gometalinter tools"
 gometalinter --install

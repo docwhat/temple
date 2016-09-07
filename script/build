@@ -50,11 +50,11 @@ if [[ "$osarch" == *all* ]]; then
     -output='temple_{{.OS}}_{{.Arch}}'
 else
   header "Building native binary"
-  go build \
+  govendor build \
     -v \
     -ldflags "-s -w" \
     -o "$progname" \
-    ./*.go
+    +local
 fi
 
 # vim: set ft=sh :

@@ -6,7 +6,7 @@ set -euo pipefail
 source "$(dirname "$0")/utilities.bash"
 
 header "Tests"
-go test -v
+govendor test -v +local
 
 header "Examples"
 for example in examples/*; do
