@@ -6,7 +6,7 @@ set -euo pipefail
 source "$(dirname "$0")/utilities.bash"
 
 header "Fetching utilites"
-go get -u -v \
+go get "$@" -v \
   github.com/alecthomas/gometalinter \
   github.com/mitchellh/gox \
   github.com/kardianos/govendor
