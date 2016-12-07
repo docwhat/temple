@@ -46,7 +46,7 @@ func main() {
 
 	funcMap := buildFuncMap(config.JSONDataFile)
 
-	// TODO: Support using html/template too?
+	// TODO: Support using html/template too? Maybe?
 	template := template.New(path.Base(config.TemplateFile)).Funcs(funcMap).Option("missingkey=zero")
 
 	// TODO: When I get to command line parsing, extra templates can be specified here
