@@ -9,19 +9,15 @@
 #      ./script/build all
 
 set -euo pipefail
+# shellcheck source=script/utilities.bash
 source "$(dirname "$0")/utilities.bash"
 progname="temple"
 
 osarch="${1:-native}"
 export CGO_ENABLED=0 # Force static compiling
 
-function dogox()
-{
-  gox \
-    -ldflags "-s -w" \
-    -osarch="$*" \
-    -output="${progname}_{{.OS}}_{{.Arch}}"
-}
+version="$(git describe --tags || echo unreleased)"
+ldflags="-s -w -X main.version=${version}"
 
 if [[ "$osarch" == *all* ]]; then
   osarches=(
@@ -30,29 +26,23 @@ if [[ "$osarch" == *all* ]]; then
     linux/386
     linux/amd64
     linux/arm
+    linux/ppc64
     linux/ppc64le
 
     windows/386
     windows/amd64
-
-    freebsd/arm
-    freebsd/386
-    freebsd/amd64
-
-    netbsd/arm
-    netbsd/386
-    netbsd/amd64
   )
 
   header "Building all binaries"
   gox \
+    -ldflags="$ldflags" \
     -osarch="${osarches[*]}" \
     -output='temple_{{.OS}}_{{.Arch}}'
 else
   header "Building native binary"
   govendor build \
     -v \
-    -ldflags "-s -w" \
+    -ldflags "$ldflags" \
     -o "$progname" \
     +local
 fi
