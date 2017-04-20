@@ -69,6 +69,7 @@ Releases
     ```
 
 6.  Go to [the releases page](https://github.com/docwhat/temple/releases)
-    1.  Edit the new release.
+    1.  Click on "Edit"
+    2.  The name should match the tag. e.g. `v0.1.0`
     2.  Paste in the change log entry.
     3.  Save.
