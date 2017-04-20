@@ -9,13 +9,6 @@ Temple
 
 Sick of `sed`? Peaked about `perl`? Use `temple` to substitute your variables!
 
-**WARNING!!**
--------------
-
-This code is not complete!
-
-While the documentation talks about releases, there haven't been any yet!
-
 Installation
 ------------
 
@@ -43,7 +36,7 @@ Flags:
   -h, --help                 Show context-sensitive help (also try
                              --help-long and --help-man).
       --version              Show application version.
-  -f, --data-file=DATA-FILE  A file to use as a data source. Supports:
+  -j, --json=DATA-FILE  A file to use as a data source. Supports:
                              JSON (Env: TEMPLE_DATA_FILE)
 
 Args:

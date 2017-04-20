@@ -3,6 +3,7 @@
 # Runs all tests.
 
 set -euo pipefail
+# shellcheck source=script/utilities.bash
 source "$(dirname "$0")/utilities.bash"
 
 header "Tests"
@@ -15,10 +16,10 @@ for example in examples/*; do
   fi
 
   header "Example ${example}"
-  if [ -f "${example}/"*.json ]; then
-    go run *.go --json-data-file "${example}/"*.json "${example}/"*.template
+  if compgen -G "${example}/*.json"; then
+    go run ./*.go --json-data "${example}"/*.json "${example}"/*.template
   else
-    go run *.go "${example}/"*.template
+    go run ./*.go "${example}"/*.template
   fi
 done
 

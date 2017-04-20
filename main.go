@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 	"path"
-	"text/template"
+	textTemplate "text/template"
 
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
@@ -26,7 +26,7 @@ func main() {
 	kingpin.Version(version)
 
 	kingpin.
-		Flag("json-data-file", "A JSON file to use via the {{json.<foo>}} interface (Env: TEMPLE_JSON_DATA_FILE)").
+		Flag("json-data", "A JSON file to use via the {{json.<foo>}} interface (Env: TEMPLE_JSON_DATA_FILE)").
 		Short('j').
 		OverrideDefaultFromEnvar("TEMPLE_JSON_DATA_FILE").
 		ExistingFileVar(&config.JSONDataFile)
@@ -47,7 +47,7 @@ func main() {
 	funcMap := buildFuncMap(config.JSONDataFile)
 
 	// TODO: Support using html/template too?
-	template := template.New(path.Base(config.TemplateFile)).Funcs(funcMap).Option("missingkey=zero")
+	template := textTemplate.New(path.Base(config.TemplateFile)).Funcs(funcMap).Option("missingkey=zero")
 
 	// TODO: When I get to command line parsing, extra templates can be specified here
 	// if _, err := temple.ParseFiles(os.Args[1]); err != nil {
