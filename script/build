@@ -20,6 +20,9 @@ version="$(git describe --tags || echo unreleased)"
 ldflags="-s -w -X main.version=${version}"
 
 if [[ "$osarch" == *all* ]]; then
+  # WARNING! If you update this, you need to update
+  # .travis.yml as well!
+  # ./script/build all && \ls -1 temple_* | perl -p -e 's/(.*)/  - "$1"/' | pbcopy
   osarches=(
     darwin/amd64
 
