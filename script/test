@@ -16,10 +16,14 @@ for example in examples/*; do
   fi
 
   header "Example ${example}"
-  if compgen -G "${example}/*.json"; then
-    go run ./*.go --json-data "${example}"/*.json "${example}"/*.template
+  # compgen -G is a badly documented trick to resolve wildcards into a
+  # single file or an empty string.
+  template=$(compgen -G "${example}"/*.template || :)
+  json=$(compgen -G "${example}/*.json" || :)
+  if [ -r "${json}" ]; then
+    go run ./*.go --json-data "$json" "$template"
   else
-    go run ./*.go "${example}"/*.template
+    go run ./*.go "$template"
   fi
 done
 
