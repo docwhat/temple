@@ -2,13 +2,19 @@ package main
 
 import (
 	"encoding/json"
+	htmlTemplate "html/template"
+	"io"
 	"log"
 	"os"
-	"text/template"
+	"path"
+	textTemplate "text/template"
 )
 
-func buildFuncMap(jsonDataFile string) template.FuncMap {
-	funcMap := make(template.FuncMap)
+// FuncMap is the same as implemented in text/template and html/template.
+type FuncMap map[string]interface{}
+
+func buildFuncMap(jsonDataFile string) FuncMap {
+	funcMap := make(FuncMap)
 
 	funcMap["env"] = os.Getenv
 	funcMap["uid"] = os.Getuid
@@ -40,4 +46,34 @@ func dataFunc(jsonDataFileName string) func() map[string]interface{} {
 	}
 
 	return func() map[string]interface{} { return v }
+}
+
+func doTextTemplate(file string, funcMap FuncMap, emitter io.Writer) {
+	template := textTemplate.
+		New(path.Base(file)).
+		Funcs(textTemplate.FuncMap(funcMap)).
+		Option("missingkey=zero")
+
+	if _, err := template.ParseFiles(file); err != nil {
+		log.Fatalf("Failed to parse: %s", err)
+	}
+
+	if err := template.Execute(emitter, struct{}{}); err != nil {
+		log.Fatalf("Unable to run your template: %s", err)
+	}
+}
+
+func doHTMLTemplate(file string, funcMap FuncMap, emitter io.Writer) {
+	template := htmlTemplate.
+		New(path.Base(file)).
+		Funcs(htmlTemplate.FuncMap(funcMap)).
+		Option("missingkey=zero")
+
+	if _, err := template.ParseFiles(file); err != nil {
+		log.Fatalf("Failed to parse: %s", err)
+	}
+
+	if err := template.Execute(emitter, struct{}{}); err != nil {
+		log.Fatalf("Unable to run your template: %s", err)
+	}
 }

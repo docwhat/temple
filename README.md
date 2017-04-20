@@ -33,11 +33,10 @@ usage: temple [<flags>] <template>
 Fast and simple templating engine
 
 Flags:
-  -h, --help                 Show context-sensitive help (also try
-                             --help-long and --help-man).
+  -h, --help                 Show context-sensitive help (also try --help-long and --help-man).
       --version              Show application version.
-  -j, --json=DATA-FILE  A file to use as a data source. Supports:
-                             JSON (Env: TEMPLE_DATA_FILE)
+  -j, --json-data=JSON-DATA  A JSON file to use via the {{json.<foo>}} interface (Env: TEMPLE_JSON_DATA_FILE)
+  -H, --html                 Use HTML templating instead of text templating (Env: TEMPLE_HTML)
 
 Args:
   <template>  A Go Template file.

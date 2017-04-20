@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+  <title>HTML Example</title>
+  <body>
+    <p>
+      {{ json.text }}
+    </p>
+    <p>
+      {{ json.unfriendly_text }}
+    </p>

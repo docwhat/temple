@@ -1,10 +1,8 @@
 package main
 
 import (
-	"log"
+	"io"
 	"os"
-	"path"
-	textTemplate "text/template"
 
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
@@ -13,6 +11,12 @@ import (
 type appConfig struct {
 	TemplateFile string
 	JSONDataFile string
+	UseHTML      bool
+}
+
+type templateInterface interface {
+	ParseFiles(...string) (templateInterface, error)
+	Execute(io.Writer, interface{}) error
 }
 
 // NewConfig initializes a Config object from the cli flags and environment variables.
@@ -32,6 +36,12 @@ func main() {
 		ExistingFileVar(&config.JSONDataFile)
 
 	kingpin.
+		Flag("html", "Use HTML templating instead of text templating (Env: TEMPLE_HTML)").
+		Short('H').
+		OverrideDefaultFromEnvar("TEMPLE_HTML").
+		BoolVar(&config.UseHTML)
+
+	kingpin.
 		Arg("template", "A Go Template file.").
 		Required().
 		ExistingFileVar(&config.TemplateFile)
@@ -45,19 +55,9 @@ func main() {
 	kingpin.Parse()
 
 	funcMap := buildFuncMap(config.JSONDataFile)
-
-	// TODO: Support using html/template too?
-	template := textTemplate.New(path.Base(config.TemplateFile)).Funcs(funcMap).Option("missingkey=zero")
-
-	// TODO: When I get to command line parsing, extra templates can be specified here
-	// if _, err := temple.ParseFiles(os.Args[1]); err != nil {
-	//   log.Fatal(err)
-	// }
-	if _, err := template.ParseFiles(config.TemplateFile); err != nil {
-		log.Fatalf("Failed to parse: %s", err)
-	}
-
-	if err := template.Execute(os.Stdout, struct{}{}); err != nil {
-		log.Fatalf("Unable to run your template: %s", err)
+	if config.UseHTML {
+		doTextTemplate(config.TemplateFile, funcMap, os.Stdout)
+	} else {
+		doHTMLTemplate(config.TemplateFile, funcMap, os.Stdout)
 	}
 }
