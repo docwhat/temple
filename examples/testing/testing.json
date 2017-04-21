@@ -3,6 +3,7 @@
   "mouse": "squeek",
   "answer": 42,
   "happy": true,
+  "difficult": "I haz \"quotes\" & ampersands",
   "ary": [
     "red",
     "blue"

@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file. This projec
 [Unreleased]
 ------------
 
+### Added
+
+- Quick start guide to go templates in the README.
+
 [0.1.0] -- 2017-04-10
 ----------------------
 
