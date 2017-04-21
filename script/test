@@ -21,9 +21,9 @@ for example in examples/*; do
   template=$(compgen -G "${example}"/*.template || :)
   json=$(compgen -G "${example}/*.json" || :)
   if [ -r "${json}" ]; then
-    go run ./*.go --json-data "$json" "$template"
+    env RUNNING_WITH=json TODAY_IS="$(date)" go run ./*.go --json-data "$json" "$template"
   else
-    go run ./*.go "$template"
+    env RUNNING_WITH=env TODAY_IS="$(date)" go run ./*.go "$template"
   fi
 done
 

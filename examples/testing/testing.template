@@ -16,10 +16,12 @@ Functions
 Environment variables
 ---------------------
 
--   HOME: `{{env "HOME"}}`
--   USER: `{{env "USER"}}`
--   TERM: `{{env "TERM"}}`
--   PATH: `{{env "PATH"}}`
+-   HOME:         `{{env "HOME"}}`
+-   USER:         `{{env "USER"}}`
+-   TERM:         `{{env "TERM"}}`
+-   PATH:         `{{env "PATH"}}`
+-   RUNNING_WITH: `{{env "RUNNING_WITH"}}`
+-   TODAY_IS:     `{{env "TODAY_IS"}}`
 
 Data
 ----
