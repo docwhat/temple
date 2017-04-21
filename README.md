@@ -83,3 +83,9 @@ For complete documentation, read go's [text/template](https://golang.org/pkg/tex
 -   `{{- <expr>}}` -- Trim whitespace to the left.
 -   `{{- <expr> -}}` -- Trim whitespace to the right and left.
 -   `{{/* comment */}}` -- Comments!
+
+## Thanks
+
+- [@alecthomas](https://github.com/alecthomas) for [kingpin](https://github.com/alecthomas/kingpin)
+- [@kballard](https://github.com/kballard) for [go-shellquote](https://github.com/kballard/go-shellquote)
+- [@seh](https://github.com/seh) for Go help
