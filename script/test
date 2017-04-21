@@ -31,7 +31,6 @@ header "Linter"
 gometalinter \
   --deadline=1m \
   --vendored-linters \
-  --disable=dupl \
   --disable=gotype
 
 # vim: set ft=sh :
