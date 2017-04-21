@@ -1,7 +1,7 @@
 [![GitHub release](https://img.shields.io/github/release/docwhat/temple.svg)](https://github.com/docwhat/temple/releases)
-
 [![Build Status](https://travis-ci.org/docwhat/temple.svg?branch=master)](https://travis-ci.org/docwhat/temple)
 [![GitHub issues](https://img.shields.io/github/issues/docwhat/temple.svg)](https://github.com/docwhat/temple/issues)
+
 [![Go Report Card](https://goreportcard.com/badge/github.com/docwhat/temple)](https://goreportcard.com/report/github.com/docwhat/temple)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/56ac41ac47614f7dabd5e30145c224b3)](https://www.codacy.com/app/docwhat/temple?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=docwhat/temple&amp;utm_campaign=Badge_Grade)
 [![Code Climate](https://codeclimate.com/github/docwhat/temple/badges/gpa.svg)](https://codeclimate.com/github/docwhat/temple)
