@@ -8,6 +8,8 @@ import (
 	"os"
 	"path"
 	textTemplate "text/template"
+
+	shellquote "github.com/kballard/go-shellquote"
 )
 
 // FuncMap is the same as implemented in text/template and html/template.
@@ -24,6 +26,8 @@ func buildFuncMap(jsonDataFile string) FuncMap {
 	funcMap["pwd"] = os.Getwd
 	funcMap["hostname"] = os.Hostname
 	funcMap["json"] = dataFunc(jsonDataFile)
+
+	funcMap["shellquote"] = shellquote.Join
 
 	return funcMap
 }

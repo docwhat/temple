@@ -69,6 +69,7 @@ For complete documentation, read go's [text/template](https://golang.org/pkg/tex
 -   `{{<expr> | js}}` -- `<expr>` escaped/quoted for JavaScript & JSON.
 -   `{{<expr> | html}}` -- `<expr>` escaped/quoted for HTML.
 -   `{{<expr> | urlquery}}` -- `<expr>` escaped/quoted for a URL quoting. i.e. replacing spaces with `+` and using `%NN` syntax.
+-   `{{<expr> | shellquote}}` -- `<expr>` escaped/quoted for POSIX shells.
 -   `{{<expr> | len}}` -- The length of the `<expr>`.
 
 ### Flow Control
