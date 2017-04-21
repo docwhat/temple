@@ -56,8 +56,8 @@ func main() {
 
 	funcMap := buildFuncMap(config.JSONDataFile)
 	if config.UseHTML {
-		doTextTemplate(config.TemplateFile, funcMap, os.Stdout)
-	} else {
 		doHTMLTemplate(config.TemplateFile, funcMap, os.Stdout)
+	} else {
+		doTextTemplate(config.TemplateFile, funcMap, os.Stdout)
 	}
 }

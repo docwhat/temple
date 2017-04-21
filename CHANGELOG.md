@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file. This projec
 [Unreleased]
 ------------
 
+### Fixed
+
+- `--html` was backwards; text was HTML and HTML was text. [issue 4](https://github.com/docwhat/temple/issues/4).
+
 ### Added
 
 - Quick start guide to go templates in the README.
