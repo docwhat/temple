@@ -32,6 +32,7 @@ func main() {
 	kingpin.
 		Flag("json-data", "A JSON file to use via the {{json.<foo>}} interface (Env: TEMPLE_JSON_DATA_FILE)").
 		Short('j').
+		PlaceHolder("JSON-FILE").
 		OverrideDefaultFromEnvar("TEMPLE_JSON_DATA_FILE").
 		ExistingFileVar(&config.JSONDataFile)
 
