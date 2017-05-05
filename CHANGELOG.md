@@ -32,10 +32,10 @@ Thanks to
 -   [keepachangelog.com]
 
   [Semantic Versioning]: http://semver.org/
-  [Unreleased]: https://github.com/docwhat/temple/compare/v0.1.0...HEAD
-  [0.2.0]: https://github.com/docwhat/temple/commits/v0.2.0
+  [Unreleased]: https://github.com/docwhat/temple/compare/v0.2.0...HEAD
+  [0.2.0]: https://github.com/docwhat/temple/compare/v0.1.0...v0.2.0
   [issue 4]: https://github.com/docwhat/temple/issues/4
   [issue 3]: https://github.com/docwhat/temple/issues/3
-  [0.1.0]: https://github.com/docwhat/temple/commits/v0.1.0...v0.2.0
+  [0.1.0]: https://github.com/docwhat/temple/commits/v0.1.0
   [flint]: https://github.com/pengwynn/flint
   [keepachangelog.com]: http://keepachangelog.com/
