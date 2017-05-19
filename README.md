@@ -84,6 +84,10 @@ For complete documentation, read go's [text/template](https://golang.org/pkg/tex
 -   `{{- <expr> -}}` -- Trim whitespace to the right and left.
 -   `{{/* comment */}}` -- Comments!
 
+## Related Projects
+
+* [gotemplate](https://github.com/hairyhenderson/gomplate)
+
 ## Thanks
 
 - [@alecthomas](https://github.com/alecthomas) for [kingpin](https://github.com/alecthomas/kingpin)
