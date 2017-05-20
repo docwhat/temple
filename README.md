@@ -86,7 +86,7 @@ For complete documentation, read go's [text/template](https://golang.org/pkg/tex
 
 ## Related Projects
 
-* [gotemplate](https://github.com/hairyhenderson/gomplate)
+* [gomplate](https://github.com/hairyhenderson/gomplate)
 
 ## Thanks
 
