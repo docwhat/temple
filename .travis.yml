@@ -4,18 +4,21 @@ go: "1.10"
 notifications:
   email:
     on_success: never
+    on_failure: never
+  pushover:
+    on_success: change
     on_failure: always
-
+    api_key:
+      secure: "oorCWZRv9vvSNYtkWUH7yWoPDQBPr4xyLc/hi0b3UGQt5jK/Rp0sd2m4KJmnbSjPJmmzzcOLtcRfn06O+OcwnAYJ9Y9WyBoq8yLhym45MvnyS4UcmfaC8wVomOFMS2jomlneMKDCYwwAxZt0lL8hQDfNWOc0Ofi7Bd3eCPXCF2bkIofSHgvy+rIdEfYhQ3Bo/+b6SMVmtXG3XDkd3Ie1NSlDLC9tdt7fm1RK/fhv9URJSEVpG7Tpz2dVvRYPWApiyRlmviaZRoTUg96AeO18tmje+g+MsqbffZD7RE/y/EQLJRie7dGL7eTwUVv+kKrYMZL8WxdE3p6QcAaibl/EE5cKfmw3IlRtkbbrr8J7azGwMMvuuxGiFqG5WEQY5ZRWIv0IrrOB57VGVU1uFtKncVvhR4Kj9bL5MOvFwj1+S0g6q2EOUEScMSbvIUF9907fznWeGHBUw499fidLGjZEjkIZbWa4D6HVy9bKTAkt+g3S+N7C9rhBsPsQg3Ti502zEQl2iBz5k3IcXWGzojcWf/Ylbh/WY/utP28zupc8Z+XGz1cG76zK8ctSDA1eG7wV9El3MnUOi3uIo5v8IWC7f8bZ68zh5Qkw9ohUmp843qWJs475c4YwIEtzS6HfXD+WkYktiqJ9tAru3C7ebGE+wvf2qIZ2fQNyjln9Bb9PFck="
+    users:
+      secure: "dFnK8uUs2kGnz0CZcOzE9KwjYZCU6tunbu5Kf7c/SymKvkB00zfpKeyFT+ZpeElzGRqSPDEgpup2EZ0wwZSx5lEVnSVmwdBAbXrqCN7PqM3SUUouSSuofMN3T8u4e1tE5Sse+4D2KG+EN5BgeO3GEnNTMV+j3h/A4QPBddLtS2A6sP2chMyI9glyrLG0Bk/4KqE6WsiE9/Al3Lo3e5UL20jVDW/WDBOOPxNKN7Z7+/PAi46KniD9UemMZPTHRCb01T2gSklNDiJ+2kbkk4WVLZ7EOyJixCsVYgElv29b36/t2UyRYMhoh9S+x1/UY+WaTW3iATdTk5wQez923b+Q2XwXKsmjqRC1wU3tTkvhclYWBYUIL2T1cdyB7rXhRf8zILjvfd1PhpBZaXW3UzahMc3SAvDOlmyU4SVuILMKqYo5pTcUDclBbDG6kW9WU9pSFkCe5FRp4VU5QzG1bBDvCuwcJE1PTTINerkBGCQ0cYv+O/7UupB0Aw50hGZedZp7SvlEUeWWUvu4mge0VYg/oa/CpY6I5ScJulbtbhY/qjMBNQ7XPbOFLeKmEFLd0FJX5EI1ea2CKoal/xN4/ahvA/LkX3S3I+FOHs8fZilFqnDb89rWh6NvcZliRimc3EDYWH4H/YxQv7OTCs27qZ9gw5PVBXdIpnbVqT2mnACQemY="
 before_install:
-- ./script/bootstrap
-
+- "./script/bootstrap"
 script:
-- ./script/test
-- ./script/build all
-
+- "./script/test"
+- "./script/build all"
 before_deploy:
 - sha256sum temple_* > checksums.sha256
-
 deploy:
   skip_cleanup: true
   provider: releases
