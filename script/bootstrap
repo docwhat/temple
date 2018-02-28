@@ -3,15 +3,17 @@
 # Sets up all the dependencies, etc. so you can build and test.
 
 set -euo pipefail
+
+# shellcheck source=script/utilities.bash
 source "$(dirname "$0")/utilities.bash"
 
 header "Fetching utilites"
-go get "$@" -v \
-  github.com/alecthomas/gometalinter \
+go install "$@" -v \
+  gopkg.in/alecthomas/gometalinter.v2 \
   github.com/mitchellh/gox \
   github.com/kardianos/govendor
 
 header "Installing gometalinter tools"
-gometalinter --install
+gometalinter.v2 --install
 
 # vim: set ft=sh :

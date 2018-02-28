@@ -28,7 +28,7 @@ for example in examples/*; do
 done
 
 header "Linter"
-gometalinter \
+gometalinter.v2 \
   --deadline=1m \
   --vendored-linters \
   --disable=gotype
