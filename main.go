@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io"
 	"os"
 
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
@@ -12,11 +11,6 @@ type appConfig struct {
 	TemplateFile string
 	JSONDataFile string
 	UseHTML      bool
-}
-
-type templateInterface interface {
-	ParseFiles(...string) (templateInterface, error)
-	Execute(io.Writer, interface{}) error
 }
 
 // NewConfig initializes a Config object from the cli flags and environment variables.
