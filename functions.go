@@ -9,6 +9,8 @@ import (
 	"path"
 	textTemplate "text/template"
 
+	sprig "github.com/Masterminds/sprig"
+
 	shellquote "github.com/kballard/go-shellquote"
 )
 
@@ -18,7 +20,6 @@ type FuncMap map[string]interface{}
 func buildFuncMap(jsonDataFile string) FuncMap {
 	funcMap := make(FuncMap)
 
-	funcMap["env"] = os.Getenv
 	funcMap["uid"] = os.Getuid
 	funcMap["gid"] = os.Getgid
 	funcMap["euid"] = os.Geteuid
@@ -55,6 +56,7 @@ func dataFunc(jsonDataFileName string) func() map[string]interface{} {
 func doTextTemplate(file string, funcMap FuncMap, emitter io.Writer) {
 	template := textTemplate.
 		New(path.Base(file)).
+		Funcs(sprig.TxtFuncMap()).
 		Funcs(textTemplate.FuncMap(funcMap)).
 		Option("missingkey=zero")
 
@@ -70,6 +72,7 @@ func doTextTemplate(file string, funcMap FuncMap, emitter io.Writer) {
 func doHTMLTemplate(file string, funcMap FuncMap, emitter io.Writer) {
 	template := htmlTemplate.
 		New(path.Base(file)).
+		Funcs(sprig.FuncMap()).
 		Funcs(htmlTemplate.FuncMap(funcMap)).
 		Option("missingkey=zero")
 

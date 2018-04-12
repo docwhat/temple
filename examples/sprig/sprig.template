@@ -1,0 +1,9 @@
+## Simple Sprig Tests
+
+| given                           | expected     |
+| ------------------------------- | ------------ |
+| `{{trim " hello "}}`            | `hello`      |
+| `{{nospace "hello w o r l d"}}` | `helloworld` |
+| `{{ now | date "2006-01-02" }}` | Today's Date |
+
+<!-- vim:set ft=markdown: -->

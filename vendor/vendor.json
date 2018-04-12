@@ -3,6 +3,12 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "QC5GfBaOFJWLeR/GcVM2Hd6LX/E=",
+			"path": "github.com/Masterminds/sprig",
+			"revision": "6b2a58267f6a8b1dc8e2eb5519b984008fa85e8c",
+			"revisionTime": "2018-04-03T01:34:13Z"
+		},
+		{
 			"checksumSHA1": "KmjnydoAbofMieIWm+it5OWERaM=",
 			"path": "github.com/alecthomas/template",
 			"revision": "a0175ee3bccc567396460bf5acd36800cb10c49c",
