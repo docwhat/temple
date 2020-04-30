@@ -9,7 +9,7 @@ import (
 // Config stores the configuration from cli flags and environment variables.
 type appConfig struct {
 	TemplateFile string
-	JSONDataFile string
+	DataFile     string
 	UseHTML      bool
 }
 
@@ -24,11 +24,11 @@ func main() {
 	kingpin.Version(version)
 
 	kingpin.
-		Flag("json-data", "A JSON file to use via the {{json.<foo>}} interface (Env: TEMPLE_JSON_DATA_FILE)").
-		Short('j').
-		PlaceHolder("JSON-FILE").
-		OverrideDefaultFromEnvar("TEMPLE_JSON_DATA_FILE").
-		ExistingFileVar(&config.JSONDataFile)
+		Flag("data", "A YAML or JSON file to use via the {{data.<foo>}} interface (Env: TEMPLE_DATA_FILE)").
+		Short('d').
+		PlaceHolder("DATA-FILE").
+		OverrideDefaultFromEnvar("TEMPLE_DATA_FILE").
+		ExistingFileVar(&config.DataFile)
 
 	kingpin.
 		Flag("html", "Use HTML templating instead of text templating (Env: TEMPLE_HTML)").
@@ -49,7 +49,7 @@ func main() {
 
 	kingpin.Parse()
 
-	funcMap := buildFuncMap(config.JSONDataFile)
+	funcMap := buildFuncMap(config.DataFile)
 	if config.UseHTML {
 		doHTMLTemplate(config.TemplateFile, funcMap, os.Stdout)
 	} else {
