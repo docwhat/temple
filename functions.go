@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/json"
+	"gopkg.in/laverya/yaml.v3"
 	htmlTemplate "html/template"
 	"io"
 	"log"
@@ -17,7 +17,7 @@ import (
 // FuncMap is the same as implemented in text/template and html/template.
 type FuncMap map[string]interface{}
 
-func buildFuncMap(jsonDataFile string) FuncMap {
+func buildFuncMap(dataFile string) FuncMap {
 	funcMap := make(FuncMap)
 
 	funcMap["uid"] = os.Getuid
@@ -26,28 +26,29 @@ func buildFuncMap(jsonDataFile string) FuncMap {
 	funcMap["egid"] = os.Getegid
 	funcMap["pwd"] = os.Getwd
 	funcMap["hostname"] = os.Hostname
-	funcMap["json"] = dataFunc(jsonDataFile)
+	funcMap["data"] = dataFunc(dataFile)
 
 	funcMap["shellquote"] = shellquote.Join
 
 	return funcMap
 }
 
-func dataFunc(jsonDataFileName string) func() map[string]interface{} {
+func dataFunc(dataFileName string) func() map[string]interface{} {
 	var v map[string]interface{}
 
-	if jsonDataFileName != "" {
-		file := safeOpen(jsonDataFileName)
+	file := os.Stdin
+	if dataFileName != "" {
+		file = safeOpen(dataFileName)
 		defer func() {
 			if err := file.Close(); err != nil {
 				log.Fatalln(err)
 			}
 		}()
+	}
 
-		dec := json.NewDecoder(file)
-		if err := dec.Decode(&v); err != nil {
-			log.Fatalf("Unable to parse %s: %s", jsonDataFileName, err)
-		}
+	dec := yaml.NewDecoder(file)
+	if err := dec.Decode(&v); err != nil {
+		log.Fatalf("Unable to parse %s: %s", dataFileName, err)
 	}
 
 	return func() map[string]interface{} { return v }
