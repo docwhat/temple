@@ -9,45 +9,18 @@
 #      ./script/build all
 
 set -euo pipefail
-# shellcheck source=./utilities.bash
-source "$(dirname "$0")/utilities.bash"
-progname="temple"
 
-osarch="${1:-native}"
 export CGO_ENABLED=0 # Force static compiling
 
+declare -r progname="temple"
 version="$(git describe --tags || echo unreleased)"
-ldflags="-s -w -X main.version=${version}"
+declare -r version
+declare -r ldflags="-s -w -X main.version=${version}"
 
-if [[ "$osarch" == *all* ]]; then
-  # WARNING! If you update this, you need to update
-  # .travis.yml as well!
-  # ./script/build all && \ls -1 temple_* | perl -p -e 's/(.*)/  - "$1"/' | pbcopy
-  osarches=(
-    darwin/amd64
-
-    linux/386
-    linux/amd64
-    linux/arm
-    linux/ppc64
-    linux/ppc64le
-
-    windows/386
-    windows/amd64
-  )
-
-  header "Building all binaries"
-  gox \
-    -ldflags="$ldflags" \
-    -osarch="${osarches[*]}" \
-    -output='temple_{{.OS}}_{{.Arch}}'
-else
-  header "Building native binary"
-  govendor build \
-    -v \
-    -ldflags "$ldflags" \
-    -o "$progname" \
-    +local
-fi
+go build \
+  -v \
+  -ldflags "$ldflags" \
+  -o "$progname" \
+  ./...
 
 # vim: set ft=sh :

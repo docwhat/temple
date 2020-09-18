@@ -10,7 +10,6 @@ import (
 	textTemplate "text/template"
 
 	sprig "github.com/Masterminds/sprig"
-
 	shellquote "github.com/kballard/go-shellquote"
 )
 
