@@ -1,6 +1,8 @@
-sudo: false
 language: go
-go: "1.10"
+go: "1.15.x"
+env:
+  global:
+    - GO111MODULE=on
 notifications:
   email:
     on_success: never
@@ -13,12 +15,12 @@ notifications:
     users:
       secure: "dFnK8uUs2kGnz0CZcOzE9KwjYZCU6tunbu5Kf7c/SymKvkB00zfpKeyFT+ZpeElzGRqSPDEgpup2EZ0wwZSx5lEVnSVmwdBAbXrqCN7PqM3SUUouSSuofMN3T8u4e1tE5Sse+4D2KG+EN5BgeO3GEnNTMV+j3h/A4QPBddLtS2A6sP2chMyI9glyrLG0Bk/4KqE6WsiE9/Al3Lo3e5UL20jVDW/WDBOOPxNKN7Z7+/PAi46KniD9UemMZPTHRCb01T2gSklNDiJ+2kbkk4WVLZ7EOyJixCsVYgElv29b36/t2UyRYMhoh9S+x1/UY+WaTW3iATdTk5wQez923b+Q2XwXKsmjqRC1wU3tTkvhclYWBYUIL2T1cdyB7rXhRf8zILjvfd1PhpBZaXW3UzahMc3SAvDOlmyU4SVuILMKqYo5pTcUDclBbDG6kW9WU9pSFkCe5FRp4VU5QzG1bBDvCuwcJE1PTTINerkBGCQ0cYv+O/7UupB0Aw50hGZedZp7SvlEUeWWUvu4mge0VYg/oa/CpY6I5ScJulbtbhY/qjMBNQ7XPbOFLeKmEFLd0FJX5EI1ea2CKoal/xN4/ahvA/LkX3S3I+FOHs8fZilFqnDb89rWh6NvcZliRimc3EDYWH4H/YxQv7OTCs27qZ9gw5PVBXdIpnbVqT2mnACQemY="
 before_install:
-- "./script/bootstrap"
+  - "./script/bootstrap"
 script:
-- "./script/test"
-- "./script/build all"
+  - "./script/test"
+  - "./script/build all"
 before_deploy:
-- sha256sum temple_* > checksums.sha256
+  - sha256sum temple_* > checksums.sha256
 deploy:
   skip_cleanup: true
   provider: releases
@@ -26,8 +28,8 @@ deploy:
     secure: "xI+WhF9AAg6H3bhBSlwcU0q55ZalgePxqqmAbFm0y0ecjnRsHXLayPwQywueqq3OsoyS8jMGd3QXxfYOrNtjfZMqG3brUnsuZHJ8h+o3rs827Cf4ViRO5InUlutYbGHla0f5KWPDy5PXlBYTy51qSHHfbEqttDqloEEKORkSclvM0tFUn3zeBLGDPyC6rFxisyu26d7r36h5qnxDQG0ZuORDF43ZAxG1v4oSILnuxC5eee+ZDVd4D5NPKOFazWd+DkfH1HfOrJVNhnLjJvzxPVDFTttzmW1+mheqCfmKszCS/3h9SZzWBG/uYjOdvdJvA6pRrG/vltDo8vM9H7NslHm+8nnLujum7xtdTRAjdHFT4PO2Lp+lQB1NmewAhei7N1rKCYkL0ZPgo8sPHwT36nATZzT3BoIdkLPBwdvCM6RMhvCc/n5TKYwcK8I9euDhZGrfe6yeXTS9jSrBgdkH351KxKf8hGXNMrWvTD1Q0YFnf6+J+JYUN6ZQ9xrIIbbG7oWnBliUYc6AsolkT0cgbctCNrnha3P5CHdoHqUKQ68NFIX4QPTg3WLhi8BLOvEzwcIRe86wc02/60gKTTRv3W0xyYfQk22Q+VfWa2uO156OGyNEpenUuM/ZlA8nCXEspHbUK7+2dBsH9DpjomRUgnE+xO8snq1PnsqMACT2S7g="
   file_glob: true
   file:
-  - "checksums.sha256"
-  - "temple_*"
+    - "checksums.sha256"
+    - "temple_*"
   on:
     tags: true
     repo: docwhat/temple
