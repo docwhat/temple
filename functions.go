@@ -10,7 +10,6 @@ import (
 	textTemplate "text/template"
 
 	sprig "github.com/Masterminds/sprig"
-
 	shellquote "github.com/kballard/go-shellquote"
 )
 
@@ -46,7 +45,11 @@ func dataFunc(jsonDataFileName string) func() map[string]interface{} {
 
 		dec := json.NewDecoder(file)
 		if err := dec.Decode(&v); err != nil {
-			log.Fatalf("Unable to parse %s: %s", jsonDataFileName, err)
+			return func() map[string]interface{} {
+				log.Fatalf("Unable to parse %s: %s", jsonDataFileName, err)
+
+				return nil
+			}
 		}
 	}
 
