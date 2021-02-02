@@ -7,13 +7,14 @@ set -euo pipefail
 # shellcheck source=./utilities.bash
 source "$(dirname "$0")/utilities.bash"
 
-header "Fetching utilites"
-go get "$@" -v \
-  gopkg.in/alecthomas/gometalinter.v2 \
-  github.com/mitchellh/gox \
-  github.com/kardianos/govendor
+header "Fetching gox"
+go get "$@" -v github.com/mitchellh/gox
 
-header "Installing gometalinter tools"
-gometalinter.v2 --install
+header "Fetching gotestsum"
+go get "$@" -v gotest.tools/gotestsum
+
+header "Fetching golangci-lint"
+curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.35.2
+bin/golangci-lint --version
 
 # vim: set ft=sh :

@@ -14,24 +14,25 @@ source "$(dirname "$0")/utilities.bash"
 progname="temple"
 
 osarch="${1:-native}"
-export CGO_ENABLED=0 # Force static compiling
+export CGO_ENABLED=0  # Force static compiling
+export GO111MODULE=on # Force modules
 
 version="$(git describe --tags || echo unreleased)"
 ldflags="-s -w -X main.version=${version}"
 
-if [[ "$osarch" == *all* ]]; then
+if [[ $osarch == *all* ]]; then
   # WARNING! If you update this, you need to update
   # .travis.yml as well!
   # ./script/build all && \ls -1 temple_* | perl -p -e 's/(.*)/  - "$1"/' | pbcopy
   osarches=(
     darwin/amd64
-
+    \
     linux/386
     linux/amd64
     linux/arm
     linux/ppc64
     linux/ppc64le
-
+    \
     windows/386
     windows/amd64
   )
@@ -43,11 +44,11 @@ if [[ "$osarch" == *all* ]]; then
     -output='temple_{{.OS}}_{{.Arch}}'
 else
   header "Building native binary"
-  govendor build \
+  go build \
     -v \
     -ldflags "$ldflags" \
     -o "$progname" \
-    +local
+    ./...
 fi
 
 # vim: set ft=sh :
