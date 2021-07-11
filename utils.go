@@ -10,5 +10,6 @@ func safeOpen(path string) *os.File {
 	if err != nil {
 		log.Fatalf("Unable to open %s: %s", path, err)
 	}
+
 	return file
 }

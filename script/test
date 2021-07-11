@@ -7,7 +7,7 @@ set -euo pipefail
 source "$(dirname "$0")/utilities.bash"
 
 header "Tests"
-govendor test -v "$@" +local
+gotestsum "$@" ./...
 
 header "Examples"
 for example in examples/*; do
@@ -28,9 +28,6 @@ for example in examples/*; do
 done
 
 header "Linter"
-gometalinter.v2 \
-  --deadline=1m \
-  --vendored-linters \
-  --disable=gotype
+bin/golangci-lint run
 
 # vim: set ft=sh :
