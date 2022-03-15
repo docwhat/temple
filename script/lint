@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# Runs all lint.
+
+set -euo pipefail
+
+echo "Running lint..."
+golangci-lint run ./...
+
+# vim: set ft=sh :

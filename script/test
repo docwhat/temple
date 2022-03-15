@@ -3,34 +3,62 @@
 # Runs all tests.
 
 set -euo pipefail
-# shellcheck source=./utilities.bash
-source "$(dirname "$0")/utilities.bash"
 
-header "Tests"
-govendor test -v "$@" +local
+function header {
+  tput sgr0
+  tput bold
+  echo "$*"
+  tput sgr0
+}
 
-header "Examples"
+declare -i global_color=99
+
+function inc_color {
+  global_color=$((global_color + 1))
+  if ((global_color > 7)); then
+    global_color=1
+  fi
+  printf "%d" "$global_color"
+}
+
+function colorpipe {
+  local line
+  global_color=$((global_color + 1))
+  if ((global_color > 6)); then
+    global_color=1
+  fi
+
+  while read -r line; do
+    tput setaf "$global_color"
+    printf "%s" "$line"
+    tput sgr0
+    echo
+  done
+}
+
+header "Running tests..."
+colorpipe < <(go test ./... -v)
+
 for example in examples/*; do
   if [ ! -d "$example" ]; then
     continue
   fi
 
-  header "Example ${example}"
+  header "Running example $example"
+
   # compgen -G is a badly documented trick to resolve wildcards into a
   # single file or an empty string.
   template=$(compgen -G "${example}"/*.template || :)
   json=$(compgen -G "${example}/*.json" || :)
   if [ -r "${json}" ]; then
-    env RUNNING_WITH=json TODAY_IS="$(date)" go run ./*.go --json-data "$json" "$template"
+    colorpipe < <(
+      env RUNNING_WITH=json TODAY_IS="$(date)" go run ./*.go --json-data "$json" "$template"
+    )
   else
-    env RUNNING_WITH=env TODAY_IS="$(date)" go run ./*.go "$template"
+    colorpipe < <(
+      env RUNNING_WITH=env TODAY_IS="$(date)" go run ./*.go "$template"
+    )
   fi
 done
-
-header "Linter"
-gometalinter.v2 \
-  --deadline=1m \
-  --vendored-linters \
-  --disable=gotype
 
 # vim: set ft=sh :
