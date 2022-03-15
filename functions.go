@@ -10,7 +10,6 @@ import (
 	textTemplate "text/template"
 
 	sprig "github.com/Masterminds/sprig/v3"
-
 	shellquote "github.com/kballard/go-shellquote"
 )
 
@@ -34,7 +33,7 @@ func buildFuncMap(jsonDataFile string) FuncMap {
 }
 
 func dataFunc(jsonDataFileName string) func() map[string]interface{} {
-	var v map[string]interface{}
+	var dataFunctionMap map[string]interface{}
 
 	if jsonDataFileName != "" {
 		file := safeOpen(jsonDataFileName)
@@ -45,12 +44,12 @@ func dataFunc(jsonDataFileName string) func() map[string]interface{} {
 		}()
 
 		dec := json.NewDecoder(file)
-		if err := dec.Decode(&v); err != nil {
-			log.Fatalf("Unable to parse %s: %s", jsonDataFileName, err)
+		if err := dec.Decode(&dataFunctionMap); err != nil {
+			log.Printf("Unable to parse %s: %s", jsonDataFileName, err)
 		}
 	}
 
-	return func() map[string]interface{} { return v }
+	return func() map[string]interface{} { return dataFunctionMap }
 }
 
 func doTextTemplate(file string, funcMap FuncMap, emitter io.Writer) {
