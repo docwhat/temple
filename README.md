@@ -1,10 +1,18 @@
-[![GitHub release](https://img.shields.io/github/release/docwhat/temple.svg)](https://github.com/docwhat/temple/releases) [![Build Status](https://travis-ci.org/docwhat/temple.svg?branch=master)](https://travis-ci.org/docwhat/temple) [![GitHub issues](https://img.shields.io/github/issues/docwhat/temple.svg)](https://github.com/docwhat/temple/issues)
-
-[![Go Report Card](https://goreportcard.com/badge/github.com/docwhat/temple)](https://goreportcard.com/report/github.com/docwhat/temple) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/56ac41ac47614f7dabd5e30145c224b3)](https://www.codacy.com/app/docwhat/temple?utm_source=github.com&utm_medium=referral&utm_content=docwhat/temple&utm_campaign=Badge_Grade) [![Code Climate](https://codeclimate.com/github/docwhat/temple/badges/gpa.svg)](https://codeclimate.com/github/docwhat/temple) [![Issue Count](https://codeclimate.com/github/docwhat/temple/badges/issue_count.svg)](https://codeclimate.com/github/docwhat/temple)
-
 # Temple
 
-Sick of `sed`? Peaked about `perl`? Use `temple` to substitute your variables!
+> Sick of `sed`? Peaked about `perl`? Use `temple` to substitute your variables!
+
+[![GitHub release](https://img.shields.io/github/release/docwhat/temple.svg)](https://github.com/docwhat/temple/releases)
+[![GitHub license](https://img.shields.io/github/license/docwhat/temple)](https://github.com/docwhat/temple/blob/master/LICENSE)
+![release status](https://github.com/docwhat/temple/actions/workflows/release.yaml/badge.svg)
+![main branch status](https://github.com/docwhat/temple/actions/workflows/checks.yaml/badge.svg?branch=main&event=push)
+[![GitHub issues](https://img.shields.io/github/issues/docwhat/temple.svg)](https://github.com/docwhat/temple/issues)
+[![GitHub contributors](https://img.shields.io/github/contributors/docwhat/temple.svg)](https://GitHub.com/docwhat/temple/graphs/contributors/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![Go version](https://img.shields.io/github/go-mod/go-version/docwhat/temple.svg)](https://github.com/docwhat/temple)
+[![GoDoc reference example](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/docwhat.org/temple)
+[![Go Report Card](https://goreportcard.com/badge/github.com/docwhat/temple)](https://goreportcard.com/report/docwhat.org/temple)
+
 
 ## Installation
 
@@ -17,7 +25,7 @@ I have pre-built binaries for several platform already. They are available on th
 If you have go v1.6 installed, then you can build the binary with the following command:
 
 ```bash
-go get -u -v docwhat.org/temple
+go install docwhat.org/temple
 ```
 
 ## Usage
@@ -35,7 +43,9 @@ go get -u -v docwhat.org/temple
     Args:
       <template>  A Go Template file.
 
-Note that the JSON file must be an object at the top level. Example:
+Note that the `JSON-DATA` file must have an object at the top level. You cannot use a bare string or an array.
+
+Example:
 
 ```json
 {
