@@ -1,12 +1,8 @@
 version = 1
 
 [[analyzers]]
+enabled = true
 name = "go"
-enabled = true
 
-  [analyzers.meta]
-  import_paths = ["docwhat.org/temple"]
-
-[[analyzers]]
-name = "ruby"
-enabled = true
+[analyzers.meta]
+import_paths = ["docwhat.org/temple"]
