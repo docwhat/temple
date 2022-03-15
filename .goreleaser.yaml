@@ -35,18 +35,24 @@ builds:
       - "linux_ppc64"
       - "linux_ppc64le"
 archives:
-  - replacements:
+  - id: default
+    replacements:
+      "darwin": "macos"
+      "386": "i386"
+  - id: binaries
+    format: binary
+    replacements:
       "darwin": "macos"
       "386": "i386"
 brews:
-  - ids: ["homebrew"]
+  - ids:
+      - "default"
     tap:
       owner: docwhat
       name: homebrew-tap
     commit_author:
-      name: "Christian Höltje"
-      email: "docwhat@gerf.org"
-    skip_upload: "auto"
+      name: "goreleaserbot"
+      email: "docwhat@users.noreply.github.com"
     folder: "Formula"
     homepage: "https://github.com/docwhat/temple"
     description: "Sick of sed? Prosaic about perl? Use temple to substitute your variables!"
@@ -57,11 +63,28 @@ checksum:
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
 changelog:
-  use: github
   sort: asc
+  use: github
   filters:
     exclude:
-      - "(?i)^(ci|chore|test|docs|lint|style):"
-      - "(?i)typo"
-      - "(?i)^Merge pull request"
-      - "(?i)^Merge branch"
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "^ci:"
+      - "^travis:"
+      - "^build:"
+      - "^lint:"
+      - "^style:"
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+      - go mod tidy
+  groups:
+    - title: "New Features"
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 0
+    - title: "Bug fixes"
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 10
+    - title: Other work
+      order: 999
