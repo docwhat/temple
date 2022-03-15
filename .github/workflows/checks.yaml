@@ -1,4 +1,4 @@
-name: goreleaser
+name: checks
 
 on:
   pull_request:
@@ -48,6 +48,9 @@ jobs:
       - run: ./script/test
 
   snapshot:
+    needs:
+      - test
+      - lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
