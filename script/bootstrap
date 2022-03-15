@@ -4,16 +4,11 @@
 
 set -euo pipefail
 
-# shellcheck source=./utilities.bash
-source "$(dirname "$0")/utilities.bash"
+## GoLangCI Linter
+golangci_lint_version="v1.44.2"
+golangci_lint_uri="github.com/golangci/golangci-lint/cmd/golangci-lint@${golangci_lint_version}"
 
-header "Fetching utilites"
-go get "$@" -v \
-  gopkg.in/alecthomas/gometalinter.v2 \
-  github.com/mitchellh/gox \
-  github.com/kardianos/govendor
-
-header "Installing gometalinter tools"
-gometalinter.v2 --install
+go install "$golangci_lint_uri" ||
+  go get -u "$golangci_lint_uri"
 
 # vim: set ft=sh :

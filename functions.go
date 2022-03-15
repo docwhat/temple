@@ -9,7 +9,7 @@ import (
 	"path"
 	textTemplate "text/template"
 
-	sprig "github.com/Masterminds/sprig"
+	sprig "github.com/Masterminds/sprig/v3"
 
 	shellquote "github.com/kballard/go-shellquote"
 )
