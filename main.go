@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
@@ -24,6 +25,8 @@ type appConfig struct {
 
 // NewConfig initializes a Config object from the cli flags and environment variables.
 func main() {
+	var err error
+
 	config := appConfig{}
 
 	kingpin.CommandLine.Writer(os.Stdout)
@@ -60,10 +63,18 @@ func main() {
 
 	kingpin.Parse()
 
-	funcMap := buildFuncMap(config.JSONDataFile)
+	funcMap, err := buildFuncMap(config.JSONDataFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	if config.UseHTML {
-		doHTMLTemplate(config.TemplateFile, funcMap, os.Stdout)
+		err = doHTMLTemplate(config.TemplateFile, funcMap, os.Stdout)
 	} else {
-		doTextTemplate(config.TemplateFile, funcMap, os.Stdout)
+		err = doTextTemplate(config.TemplateFile, funcMap, os.Stdout)
+	}
+
+	if err != nil {
+		log.Fatalln(err)
 	}
 }
