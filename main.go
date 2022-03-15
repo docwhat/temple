@@ -7,6 +7,7 @@ import (
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
 
+// nolint: gochecknoglobals
 var (
 	version = "dev"
 	commit  = "none"
