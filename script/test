@@ -4,6 +4,18 @@
 
 set -euo pipefail
 
+# tput can be grumpy if TERM isn't set right... this wraps it if
+# it exists or provides an no-op replacement.
+if command -v tput >/dev/null 2>&1 && tput sgr0 2>/dev/null; then
+  function tput {
+    command tput "$@" 2>/dev/null || true
+  }
+else
+  function tput {
+    true
+  }
+fi
+
 function header {
   tput sgr0
   tput bold
