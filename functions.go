@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	htmlTemplate "html/template"
 	"io"
 	"log"
@@ -16,7 +17,9 @@ import (
 // FuncMap is the same as implemented in text/template and html/template.
 type FuncMap map[string]interface{}
 
-func buildFuncMap(jsonDataFile string) FuncMap {
+func buildFuncMap(jsonDataFile string) (FuncMap, error) {
+	var err error
+
 	funcMap := make(FuncMap)
 
 	funcMap["uid"] = os.Getuid
@@ -25,34 +28,40 @@ func buildFuncMap(jsonDataFile string) FuncMap {
 	funcMap["egid"] = os.Getegid
 	funcMap["pwd"] = os.Getwd
 	funcMap["hostname"] = os.Hostname
-	funcMap["json"] = dataFunc(jsonDataFile)
+	funcMap["json"], err = dataFunc(jsonDataFile)
+
+	if err != nil {
+		return nil, err
+	}
 
 	funcMap["shellquote"] = shellquote.Join
 
-	return funcMap
+	return funcMap, nil
 }
 
-func dataFunc(jsonDataFileName string) func() map[string]interface{} {
+func dataFunc(jsonDataFileName string) (func() FuncMap, error) {
 	var dataFunctionMap map[string]interface{}
 
 	if jsonDataFileName != "" {
 		file := safeOpen(jsonDataFileName)
 		defer func() {
 			if err := file.Close(); err != nil {
-				log.Fatalln(err)
+				log.Printf("unable to close file %v: %s", jsonDataFileName, err)
 			}
 		}()
 
 		dec := json.NewDecoder(file)
 		if err := dec.Decode(&dataFunctionMap); err != nil {
-			log.Printf("Unable to parse %s: %s", jsonDataFileName, err)
+			return nil, fmt.Errorf("unable to parse %s: %w", jsonDataFileName, err)
 		}
 	}
 
-	return func() map[string]interface{} { return dataFunctionMap }
+	dm := func() FuncMap { return dataFunctionMap }
+
+	return dm, nil
 }
 
-func doTextTemplate(file string, funcMap FuncMap, emitter io.Writer) {
+func doTextTemplate(file string, funcMap FuncMap, emitter io.Writer) error {
 	template := textTemplate.
 		New(path.Base(file)).
 		Funcs(sprig.TxtFuncMap()).
@@ -60,15 +69,17 @@ func doTextTemplate(file string, funcMap FuncMap, emitter io.Writer) {
 		Option("missingkey=zero")
 
 	if _, err := template.ParseFiles(file); err != nil {
-		log.Fatalf("Failed to parse: %s", err)
+		return fmt.Errorf("failed to parse: %w", err)
 	}
 
 	if err := template.Execute(emitter, struct{}{}); err != nil {
-		log.Fatalf("Unable to run your template: %s", err)
+		return fmt.Errorf("unable to run your template: %w", err)
 	}
+
+	return nil
 }
 
-func doHTMLTemplate(file string, funcMap FuncMap, emitter io.Writer) {
+func doHTMLTemplate(file string, funcMap FuncMap, emitter io.Writer) error {
 	template := htmlTemplate.
 		New(path.Base(file)).
 		Funcs(sprig.FuncMap()).
@@ -76,10 +87,12 @@ func doHTMLTemplate(file string, funcMap FuncMap, emitter io.Writer) {
 		Option("missingkey=zero")
 
 	if _, err := template.ParseFiles(file); err != nil {
-		log.Fatalf("Failed to parse: %s", err)
+		return fmt.Errorf("failed to parse: %w", err)
 	}
 
 	if err := template.Execute(emitter, struct{}{}); err != nil {
-		log.Fatalf("Unable to run your template: %s", err)
+		return fmt.Errorf("unable to run your template: %w", err)
 	}
+
+	return nil
 }
