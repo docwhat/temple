@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	htmlTemplate "html/template"
 	"io"
@@ -10,14 +9,15 @@ import (
 	"path"
 	textTemplate "text/template"
 
-	sprig "github.com/Masterminds/sprig/v3"
+	"github.com/Masterminds/sprig/v3"
 	shellquote "github.com/kballard/go-shellquote"
+	"gopkg.in/yaml.v2"
 )
 
 // FuncMap is the same as implemented in text/template and html/template.
 type FuncMap map[string]interface{}
 
-func buildFuncMap(jsonDataFile string) (FuncMap, error) {
+func buildFuncMap(dataFile string) (FuncMap, error) {
 	var err error
 
 	funcMap := make(FuncMap)
@@ -28,7 +28,7 @@ func buildFuncMap(jsonDataFile string) (FuncMap, error) {
 	funcMap["egid"] = os.Getegid
 	funcMap["pwd"] = os.Getwd
 	funcMap["hostname"] = os.Hostname
-	funcMap["json"], err = dataFunc(jsonDataFile)
+	funcMap["data"], err = dataFunc(dataFile)
 
 	if err != nil {
 		return nil, err
@@ -39,20 +39,20 @@ func buildFuncMap(jsonDataFile string) (FuncMap, error) {
 	return funcMap, nil
 }
 
-func dataFunc(jsonDataFileName string) (func() FuncMap, error) {
+func dataFunc(dataFileName string) (func() FuncMap, error) {
 	var dataFunctionMap map[string]interface{}
 
-	if jsonDataFileName != "" {
-		file := safeOpen(jsonDataFileName)
+	if dataFileName != "" {
+		file := safeOpen(dataFileName)
 		defer func() {
 			if err := file.Close(); err != nil {
-				log.Printf("unable to close file %v: %s", jsonDataFileName, err)
+				log.Printf("unable to close file %v: %s", dataFileName, err)
 			}
 		}()
 
-		dec := json.NewDecoder(file)
+		dec := yaml.NewDecoder(file)
 		if err := dec.Decode(&dataFunctionMap); err != nil {
-			return nil, fmt.Errorf("unable to parse %s: %w", jsonDataFileName, err)
+			return nil, fmt.Errorf("unable to parse %s: %w", dataFileName, err)
 		}
 	}
 

@@ -35,23 +35,30 @@ go install docwhat.org/temple
     Fast and simple templating engine
 
     Flags:
-      -h, --help                 Show context-sensitive help (also try --help-long and --help-man).
-          --version              Show application version.
-      -j, --json-data=JSON-DATA  A JSON file to use via the {{json.<foo>}} interface (Env: TEMPLE_JSON_DATA_FILE)
-      -H, --html                 Use HTML templating instead of text templating (Env: TEMPLE_HTML)
+      -h, --help            Show context-sensitive help (also try --help-long and --help-man).
+          --version         Show application version.
+      -d, --data=DATA-FILE  A YAML or JSON file to use via the {{data.<foo>}} interface (Env: TEMPLE_DATA_FILE)
+      -H, --html            Use HTML templating instead of text templating (Env: TEMPLE_HTML)
 
     Args:
       <template>  A Go Template file.
 
-Note that the `JSON-DATA` file must have an object at the top level. You cannot use a bare string or an array.
+Note that the `DATA` file must have an object at the top level. You cannot use a bare string or an array.
 
-Example:
+JSON Example:
 
 ```json
 {
   "key": "value",
   "key2": 2
 }
+```
+
+YAML Example:
+
+```yaml
+key: "value"
+key2: 2
 ```
 
 ## Template Syntax

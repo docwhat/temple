@@ -26,16 +26,16 @@ Environment variables
 Data
 ----
 
--   `.mouse`: `{{json.mouse}}`
--   `.answer`: `{{json.answer | printf "%q"}}`
--   `.happy`: `{{json.happy | printf "%q"}}`
--   `.difficult`: `{{json.difficult | printf "%q"}}`
--   `.difficult`: `{{json.difficult | js}}`
--   `.difficult`: `{{json.difficult | html}}`
--   `.difficult`: `{{json.difficult | urlquery}}`
--   `.ary[0]`: `{{index json.ary 0}}`
--   `.ary[1]`: `{{index json.ary 1}}`
--   `.ary`: {{range json.ary}}
+-   `.mouse`: `{{data.mouse}}`
+-   `.answer`: `{{data.answer | printf "%q"}}`
+-   `.happy`: `{{data.happy | printf "%q"}}`
+-   `.difficult`: `{{data.difficult | printf "%q"}}`
+-   `.difficult`: `{{data.difficult | js}}`
+-   `.difficult`: `{{data.difficult | html}}`
+-   `.difficult`: `{{data.difficult | urlquery}}`
+-   `.ary[0]`: `{{index data.ary 0}}`
+-   `.ary[1]`: `{{index data.ary 1}}`
+-   `.ary`: {{range data.ary}}
     -   `{{.}}`{{end}}
 
 <!-- vim: set ft=pandoc : -->

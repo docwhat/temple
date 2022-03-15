@@ -3,8 +3,8 @@
   <title>HTML Example</title>
   <body>
     <p>
-      {{ json.text }}
+      {{ data.text }}
     </p>
     <p>
-      {{ json.unfriendly_text }}
+      {{ data.unfriendly_text }}
     </p>
