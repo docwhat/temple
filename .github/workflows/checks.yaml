@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v3
         with:
           go-version: ${{ env.GO_VERSION }}
       - uses: actions/cache@v2
@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v3
         with:
           go-version: ${{ env.GO_VERSION }}
       - uses: actions/cache@v2
@@ -57,7 +57,7 @@ jobs:
       - name: Fetch all tags
         run: git fetch --force --tags
       - run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v3
         with:
           go-version: ${{ env.GO_VERSION }}
       - uses: actions/cache@v2
