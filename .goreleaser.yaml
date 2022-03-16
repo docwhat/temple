@@ -42,10 +42,10 @@ brews:
       name: "goreleaserbot"
       email: "docwhat@users.noreply.github.com"
     test: |
-      system "#{bin}/template --version"
-      system "#{bin}/template /etc/hosts"
+      system "#{bin}/temple --version"
+      system "#{bin}/temple /etc/hosts"
     install: |
-      bin.install "template"
+      bin.install "temple"
     folder: "Formula"
     homepage: "https://github.com/docwhat/temple"
     description: "Sick of sed? Prosaic about perl? Use temple to substitute your variables!"
