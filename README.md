@@ -4,14 +4,16 @@
 
 [![GitHub release](https://img.shields.io/github/release/docwhat/temple.svg)](https://github.com/docwhat/temple/releases)
 [![GitHub license](https://img.shields.io/github/license/docwhat/temple)](https://github.com/docwhat/temple/blob/master/LICENSE)
+[![GoDoc reference example](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/docwhat.org/temple)
+[![Go version](https://img.shields.io/github/go-mod/go-version/docwhat/temple.svg)](https://github.com/docwhat/temple)
+
 ![release status](https://github.com/docwhat/temple/actions/workflows/release.yaml/badge.svg)
 ![main branch status](https://github.com/docwhat/temple/actions/workflows/checks.yaml/badge.svg?branch=main&event=push)
+[![Go Report Card](https://goreportcard.com/badge/github.com/docwhat/temple)](https://goreportcard.com/report/docwhat.org/temple)
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![GitHub issues](https://img.shields.io/github/issues/docwhat/temple.svg)](https://github.com/docwhat/temple/issues)
 [![GitHub contributors](https://img.shields.io/github/contributors/docwhat/temple.svg)](https://GitHub.com/docwhat/temple/graphs/contributors/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![Go version](https://img.shields.io/github/go-mod/go-version/docwhat/temple.svg)](https://github.com/docwhat/temple)
-[![GoDoc reference example](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/docwhat.org/temple)
-[![Go Report Card](https://goreportcard.com/badge/github.com/docwhat/temple)](https://goreportcard.com/report/docwhat.org/temple)
 
 
 ## Installation
