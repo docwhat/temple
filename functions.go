@@ -17,7 +17,7 @@ import (
 // FuncMap is the same as implemented in text/template and html/template.
 type FuncMap map[string]interface{}
 
-func buildFuncMap(dataFile string) (FuncMap, error) {
+func buildFuncMap(dataFile *os.File) (FuncMap, error) {
 	var err error
 
 	funcMap := make(FuncMap)
@@ -39,26 +39,22 @@ func buildFuncMap(dataFile string) (FuncMap, error) {
 	return funcMap, nil
 }
 
-func dataFunc(dataFileName string) (func() FuncMap, error) {
+func dataFunc(dataFile *os.File) (func() FuncMap, error) {
 	var dataFunctionMap map[string]interface{}
 
-	if dataFileName != "" {
-		file := safeOpen(dataFileName)
+	if dataFile != nil {
 		defer func() {
-			if err := file.Close(); err != nil {
-				log.Printf("unable to close file %v: %s", dataFileName, err)
+			if err := dataFile.Close(); err != nil {
+				log.Printf("unable to close data file: %s", err)
 			}
 		}()
 
-		dec := yaml.NewDecoder(file)
-		if err := dec.Decode(&dataFunctionMap); err != nil {
-			return nil, fmt.Errorf("unable to parse %s: %w", dataFileName, err)
+		if err := yaml.NewDecoder(dataFile).Decode(&dataFunctionMap); err != nil {
+			return nil, fmt.Errorf("unable to parse data file: %w", err)
 		}
 	}
 
-	dm := func() FuncMap { return dataFunctionMap }
-
-	return dm, nil
+	return func() FuncMap { return dataFunctionMap }, nil
 }
 
 func doTextTemplate(file string, funcMap FuncMap, emitter io.Writer) error {

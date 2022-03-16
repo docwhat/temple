@@ -30,18 +30,18 @@ go install docwhat.org/temple
 
 ## Usage
 
-    usage: temple [<flags>] <template>
+    Usage: temple <template-file>
 
-    Fast and simple templating engine
+    A simple templating engine
+
+    Arguments:
+      <template-file>    The template file to use ($TEMPLE_TEMPLATE_FILE)
 
     Flags:
-      -h, --help            Show context-sensitive help (also try --help-long and --help-man).
-          --version         Show application version.
-      -d, --data=DATA-FILE  A YAML or JSON file to use via the {{data.<foo>}} interface (Env: TEMPLE_DATA_FILE)
-      -H, --html            Use HTML templating instead of text templating (Env: TEMPLE_HTML)
-
-    Args:
-      <template>  A Go Template file.
+      -h, --help              Show context-sensitive help.
+          --version           Show version information
+      -d, --data=DATA-FILE    A YAML or JSON file to use via the {{data.<foo>}} interface ($TEMPLE_DATA_FILE)
+      -H, --html              Use HTML templating instead of text templating ($TEMPLE_USE_HTML)
 
 Note that the `DATA` file must have an object at the top level. You cannot use a bare string or an array.
 

@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 
-	kingpin "gopkg.in/alecthomas/kingpin.v2"
+	"github.com/alecthomas/kong"
 )
 
 // nolint: gochecknoglobals
@@ -16,65 +15,40 @@ var (
 	builtBy = "unknown"
 )
 
-// Config stores the configuration from cli flags and environment variables.
-type appConfig struct {
-	TemplateFile string
-	DataFile     string
-	UseHTML      bool
+// nolint: lll
+type CLI struct {
+	Version      kong.VersionFlag `name:"version" help:"Show version information"`
+	TemplateFile string           `env:"TEMPLE_TEMPLATE_FILE" arg:"" required:"" type:"existingfile" help:"The template file to use"`
+	DataFile     *os.File         `short:"d" name:"data" placeholder:"DATA-FILE" env:"TEMPLE_DATA_FILE" help:"A YAML or JSON file to use via the {{data.<foo>}} interface"`
+	HTML         bool             `short:"H" env:"TEMPLE_USE_HTML" help:"Use HTML templating instead of text templating"`
 }
 
-// NewConfig initializes a Config object from the cli flags and environment variables.
-func main() {
+func (cli *CLI) Run() error {
 	var err error
 
-	config := appConfig{}
+	funcMap, err := buildFuncMap(cli.DataFile)
+	if err != nil {
+		return err
+	}
 
-	kingpin.CommandLine.Writer(os.Stdout)
-	kingpin.HelpFlag.Short('h')
-	kingpin.CommandLine.Help = "Fast and simple templating engine"
-	kingpin.CommandLine.Author("Christian Höltje")
-	kingpin.Version(
-		fmt.Sprintf("version\t%s\ncommit\t%s\nbuilt\t%s by %s", version, commit, date, builtBy),
+	if cli.HTML {
+		return doHTMLTemplate(cli.TemplateFile, funcMap, os.Stdout)
+	}
+
+	return doTextTemplate(cli.TemplateFile, funcMap, os.Stdout)
+}
+
+func main() {
+	cli := CLI{}
+
+	ctx := kong.Parse(&cli,
+		kong.Name("temple"),
+		kong.Description("A simple templating engine"),
+		kong.UsageOnError(),
+		kong.Vars{
+			"version": fmt.Sprintf("version\t%s\ncommit\t%s\nbuilt\t%s by %s", version, commit, date, builtBy),
+		},
 	)
-
-	kingpin.
-		Flag("data", "A YAML or JSON file to use via the {{data.<foo>}} interface (Env: TEMPLE_DATA_FILE)").
-		Short('d').
-		PlaceHolder("DATA-FILE").
-		OverrideDefaultFromEnvar("TEMPLE_DATA_FILE").
-		ExistingFileVar(&config.DataFile)
-
-	kingpin.
-		Flag("html", "Use HTML templating instead of text templating (Env: TEMPLE_HTML)").
-		Short('H').
-		OverrideDefaultFromEnvar("TEMPLE_HTML").
-		BoolVar(&config.UseHTML)
-
-	kingpin.
-		Arg("template", "A Go Template file.").
-		Required().
-		ExistingFileVar(&config.TemplateFile)
-
-	// Handle case where no arguments were presented.
-	if len(os.Args) == 1 {
-		kingpin.Usage()
-		os.Exit(1)
-	}
-
-	kingpin.Parse()
-
-	funcMap, err := buildFuncMap(config.DataFile)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	if config.UseHTML {
-		err = doHTMLTemplate(config.TemplateFile, funcMap, os.Stdout)
-	} else {
-		err = doTextTemplate(config.TemplateFile, funcMap, os.Stdout)
-	}
-
-	if err != nil {
-		log.Fatalln(err)
-	}
+	err := ctx.Run(&cli)
+	ctx.FatalIfErrorf(err)
 }
