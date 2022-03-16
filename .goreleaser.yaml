@@ -7,18 +7,6 @@ universal_binaries:
 builds:
   - env:
       - CGO_ENABLED=0
-    # goos:
-    #   - darwin
-    #   - freebsd
-    #   - linux
-    #   - windows
-    # goarch:
-    #   - "386"
-    #   - "amd64"
-    #   - "arm"
-    #   - "arm64"
-    #   - "ppc64"
-    #   - "ppc64le"
     targets:
       - "darwin_amd64"
       - "darwin_arm64"
@@ -53,6 +41,11 @@ brews:
     commit_author:
       name: "goreleaserbot"
       email: "docwhat@users.noreply.github.com"
+    test: |
+      system "#{bin}/template --version"
+      system "#{bin}/template /etc/hosts"
+    install: |
+      bin.install "template"
     folder: "Formula"
     homepage: "https://github.com/docwhat/temple"
     description: "Sick of sed? Prosaic about perl? Use temple to substitute your variables!"
