@@ -14,18 +14,23 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Fetch all tags
         run: |
-
           git fetch --force --tags
-      - run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
-      - uses: actions/setup-go@v2
+
+      - name: Capture Go Version
+        run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
+
+      - uses: actions/setup-go@v5
         with:
           go-version: ${{ env.GO_VERSION }}
-      - uses: actions/cache@v2
+
+      - name: Setup Cache
+        uses: actions/cache@v4
         continue-on-error: true
         timeout-minutes: 2
         if: ${{ !env.ACT }}
@@ -33,8 +38,9 @@ jobs:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
           restore-keys: ${{ runner.os }}-go-
+
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
           version: latest

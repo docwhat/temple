@@ -12,12 +12,19 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
-      - uses: actions/setup-go@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Capture Go Version
+        run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ env.GO_VERSION }}
-      - uses: actions/cache@v2
+
+      - name: Setup Cache
+        uses: actions/cache@v4
         continue-on-error: true
         timeout-minutes: 2
         if: ${{ !env.ACT }}
@@ -25,18 +32,29 @@ jobs:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
           restore-keys: ${{ runner.os }}-go-
-      - run: ./script/bootstrap
-      - run: golangci-lint run ./...
+
+      - name: Bootstrap
+        run: ./script/bootstrap
+
+      - name: Lint
+        run: ./script/lint
 
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
-      - uses: actions/setup-go@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Capture Go Version
+        run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ env.GO_VERSION }}
-      - uses: actions/cache@v2
+
+      - name: Setup Cache
+        uses: actions/cache@v4
         continue-on-error: true
         timeout-minutes: 2
         if: ${{ !env.ACT }}
@@ -44,8 +62,12 @@ jobs:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
           restore-keys: ${{ runner.os }}-go-
-      - run: ./script/bootstrap
-      - run: ./script/test
+
+      - name: Bootstrap
+        run: ./script/bootstrap
+
+      - name: Lint
+        run: ./script/test
 
   snapshot:
     needs:
@@ -54,16 +76,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Fetch all tags
         run: git fetch --force --tags
-      - run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
-      - uses: actions/setup-go@v2
+
+      - name: Capture Go Version
+        run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ env.GO_VERSION }}
-      - uses: actions/cache@v2
+
+      - name: Setup Cache
+        uses: actions/cache@v4
         continue-on-error: true
         timeout-minutes: 2
         if: ${{ !env.ACT }}
@@ -71,11 +100,13 @@ jobs:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
           restore-keys: ${{ runner.os }}-go-
+
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
           version: latest
           args: release --clean --snapshot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# EOF
