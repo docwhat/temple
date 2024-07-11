@@ -25,13 +25,14 @@ jobs:
 
       - name: Setup Cache
         uses: actions/cache@v4
-        continue-on-error: true
-        timeout-minutes: 2
         if: ${{ !env.ACT }}
         with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
-          restore-keys: ${{ runner.os }}-go-
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
 
       - name: Bootstrap
         run: ./script/bootstrap
@@ -55,13 +56,14 @@ jobs:
 
       - name: Setup Cache
         uses: actions/cache@v4
-        continue-on-error: true
-        timeout-minutes: 2
         if: ${{ !env.ACT }}
         with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
-          restore-keys: ${{ runner.os }}-go-
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
 
       - name: Bootstrap
         run: ./script/bootstrap
@@ -93,13 +95,14 @@ jobs:
 
       - name: Setup Cache
         uses: actions/cache@v4
-        continue-on-error: true
-        timeout-minutes: 2
         if: ${{ !env.ACT }}
         with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
-          restore-keys: ${{ runner.os }}-go-
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
