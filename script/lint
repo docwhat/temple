@@ -4,7 +4,18 @@
 
 set -euo pipefail
 
-echo "Running lint..."
-golangci-lint run ./...
+root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+readonly root
+
+flags=()
+
+if [[ -n ${CI-} ]]; then
+  echo "Running lint in CI mode..."
+  flags+=("--ci")
+else
+  echo "Running lint..."
+fi
+
+"${root}/script/trunk" check "${flags[@]:+"${flags[@]}"}"
 
 # vim: set ft=sh :
