@@ -16,6 +16,7 @@ var (
 )
 
 // nolint: lll
+// CLI is the main structure for storing information about the application.
 type CLI struct {
 	Version      kong.VersionFlag `name:"version" help:"Show version information"`
 	TemplateFile string           `env:"TEMPLE_TEMPLATE_FILE" arg:"" required:"" type:"existingfile" help:"The template file to use"`
@@ -23,6 +24,8 @@ type CLI struct {
 	HTML         bool             `short:"H" env:"TEMPLE_USE_HTML" help:"Use HTML templating instead of text templating"`
 }
 
+// Run is the bulk of the process that is used by Temple.
+// This can be used independently from the CLI.
 func (cli *CLI) Run() error {
 	var err error
 
@@ -38,6 +41,7 @@ func (cli *CLI) Run() error {
 	return doTextTemplate(cli.TemplateFile, funcMap, os.Stdout)
 }
 
+// main is the main entry point for the CLI and the command line configuration.
 func main() {
 	cli := CLI{}
 

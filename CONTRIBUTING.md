@@ -1,10 +1,8 @@
-Contributing
-============
+# Contributing
 
 I love pull requests from everyone!
 
-Getting Started
----------------
+## Getting Started
 
 ### Install Go
 
@@ -16,26 +14,26 @@ If you will be contributing, then you'll want to [fork the repository](https://h
 
 Once you've forked it, then you can clone the source:
 
-``` sh
-$ git clone git@github.com:<your-username>/<repository-name>.git
+```sh
+git clone git@github.com:<your-username>/<repository-name>.git
 ```
 
 Fetch the required dependencies:
 
-``` sh
-$ script/bootstrap
+```sh
+script/bootstrap
 ```
 
 Before you do any changes, make sure the tests pass:
 
-``` sh
-$ script/test
+```sh
+script/test
 ```
 
 Make your change. Add tests for your change. Make the tests pass:
 
-``` sh
-$ script/test
+```sh
+script/test
 ```
 
 Push to your fork and [submit a pull request](https://help.github.com/articles/creating-a-pull-request/).
@@ -47,29 +45,28 @@ Some things that will increase the chance that your pull request is accepted:
 -   Write tests.
 -   Write a [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
 
-Releases
---------
+## Releases
 
 1.  Update the `CHANGELOG.md`. See [keepachangelog.com](http://keepachangelog.com/) for info.
 2.  Commit `CHANGELOG.md`
 3.  Copy the current change log entry for the version to be released.
 4.  Tag the new version. Example:
 
-    ``` sh
-    $ git tag v0.1.0
+    ```sh
+    git tag v0.1.0
     ```
 
 5.  Push up the commit and tag:
 
-    ``` sh
-    $ git push
-    ...
-    $ git push --tags
-    ...
+    ```sh
+    git push
+    # ...
+    git push --tags
+    # ...
     ```
 
 6.  Go to [the releases page](https://github.com/docwhat/temple/releases)
     1.  Click on "Edit"
     2.  The name should match the tag. e.g. `v0.1.0`
-    2.  Paste in the change log entry.
-    3.  Save.
+    3.  Paste in the change log entry.
+    4.  Save.
