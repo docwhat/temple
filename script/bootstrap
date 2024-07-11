@@ -1,14 +1,110 @@
-#!/bin/bash
-#
-# Sets up all the dependencies, etc. so you can build and test.
+#!/usr/bin/env bash
+# shellcheck disable=SC2310
 
 set -euo pipefail
 
-## GoLangCI Linter
-golangci_lint_version="v1.44.2"
-golangci_lint_uri="github.com/golangci/golangci-lint/cmd/golangci-lint@${golangci_lint_version}"
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+readonly root
 
-go install "$golangci_lint_uri" ||
-  go get -u "$golangci_lint_uri"
+red=$(tput setaf 1 2>/dev/null || :)
+green=$(tput setaf 2 2>/dev/null || :)
+yellow=$(tput setaf 3 2>/dev/null || :)
+readonly red green yellow
 
-# vim: set ft=sh :
+bold=$(tput bold 2>/dev/null || :)
+reset=$(tput sgr0 2>/dev/null || :)
+readonly bold reset
+
+readonly checkmark="${green}✔${reset}"
+readonly crossmark="${red}✘${reset}"
+
+failure=0
+success=0
+
+has() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+success() {
+  printf "%s %s%s%s\n" \
+    "${checkmark}" "${green}${bold}" "$1" "${reset}"
+  success=$((success + 1))
+}
+
+failure() {
+  printf "%s %s%s%s\n" \
+    "${crossmark}" "${red}${bold}" "$1" "${reset}"
+  failure=$((failure + 1))
+}
+
+instructions() {
+  printf "  %s%s%s\n" "${yellow}${bold}" "$1" "${reset}"
+}
+
+declare _os='' # memoize OS
+# os tries to detect the Operating System.
+os() {
+  if [[ -z ${_os} ]]; then
+    case "$(uname -s)" in
+    Darwin) _os="macos" ;;
+    Linux)
+      if [[ -f /etc/os-release ]]; then
+        _os=$(sh -c '. /etc/os-release; printf "%s" "${ID}"')
+      else
+        echo _os="linux"
+      fi
+      ;;
+    *) _os="unknown" ;;
+    esac
+  fi
+  printf "%s" "${_os}"
+}
+
+## CURL
+############################################################
+if has curl; then
+  success "curl is installed"
+else
+  failure "missing curl"
+  instructions "Please install curl."
+  case "$(os)" in
+  ubuntu | debian)
+    instructions "On Ubuntu or Debian, you can use:"
+    instructions "  sudo apt-get install curl"
+    ;;
+  fedora)
+    instructions "On Fedora, you can use:"
+    instructions "  sudo dnf install curl"
+    ;;
+  macos)
+    die "On macOS, you should already have curl installed."
+    ;;
+  *) ;;
+  esac
+fi
+
+## Trunk.IO
+############################################################
+printf '\n%sInstalling Trunk%s\n' "${bold}" "${reset}"
+trunk_args=(install)
+if [[ -n ${CI-} ]]; then
+  trunk_args+=(--no-progress)
+fi
+if "${root}/script/trunk" "${trunk_args[@]}"; then
+  success "trunk is installed"
+else
+  failure "unable to install trunk"
+fi
+
+printf '\nsuccesss: %s%d%s  failures: %s%d%s\n' "${green}" "${success}" "${reset}" "${red}" "${failure}" "${reset}"
+
+if ((failure > 0)); then
+  printf '\n%sBootstrap failed!%s\n' "${red}" "${reset}"
+  instructions "  Please fix the issues above and run this script again."
+  exit 1
+else
+  printf '\n%sSuccess! 🎉%s\n' "${green}" "${reset}"
+  exit 0
+fi
+
+# EOF

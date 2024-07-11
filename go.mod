@@ -1,6 +1,6 @@
 module docwhat.org/temple
 
-go 1.17
+go 1.22.4
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.2
