@@ -9,9 +9,9 @@ import (
 	"path"
 	textTemplate "text/template"
 
-	"github.com/Masterminds/sprig/v3"
+	sprig "github.com/Masterminds/sprig/v3"
 	shellquote "github.com/kballard/go-shellquote"
-	"gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v2"
 )
 
 // FuncMap is the same as implemented in text/template and html/template.
