@@ -1,4 +1,5 @@
 # Make sure to check the documentation at https://goreleaser.com
+version: 2
 before:
   hooks:
     - go mod tidy
@@ -24,18 +25,12 @@ builds:
       - "linux_ppc64le"
 archives:
   - id: default
-    replacements:
-      "darwin": "macos"
-      "386": "i386"
   - id: binaries
     format: binary
-    replacements:
-      "darwin": "macos"
-      "386": "i386"
 brews:
   - ids:
       - "default"
-    tap:
+    repository:
       owner: docwhat
       name: homebrew-tap
     commit_author:
@@ -46,7 +41,7 @@ brews:
       system "#{bin}/temple /etc/hosts"
     install: |
       bin.install "temple"
-    folder: "Formula"
+    directory: "Formula"
     homepage: "https://github.com/docwhat/temple"
     description: "Sick of sed? Prosaic about perl? Use temple to substitute your variables!"
     license: "MIT"

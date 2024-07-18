@@ -29,7 +29,6 @@ func buildFuncMap(dataFile *os.File) (FuncMap, error) {
 	funcMap["pwd"] = os.Getwd
 	funcMap["hostname"] = os.Hostname
 	funcMap["data"], err = dataFunc(dataFile)
-
 	if err != nil {
 		return nil, err
 	}
