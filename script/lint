@@ -7,6 +7,13 @@ set -euo pipefail
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 readonly root
 
+x() {
+  printf -- "+"
+  printf -- " %q" "$@"
+  printf -- "\n"
+  "$@"
+}
+
 flags=()
 
 if [[ -n ${CI-} ]]; then
@@ -16,6 +23,6 @@ else
   echo "Running lint..."
 fi
 
-"${root}/script/trunk" check "${flags[@]:+"${flags[@]}"}"
+x "${root}/script/trunk" check "${flags[@]:+"${flags[@]}"}"
 
 # vim: set ft=sh :
