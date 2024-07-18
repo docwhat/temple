@@ -21,6 +21,6 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
-	golang.org/x/crypto v0.0.0-20220313003712-b769efc7c000 // indirect
+	golang.org/x/crypto v0.17.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 )
