@@ -1,0 +1,8 @@
+# Configuration files for Markdown Lint
+.mdlrc linguist-vendored
+.mdlstyle.rb linguist-vendored
+
+# Scripts for managing the build, not the actual tool.
+script/* linguist-vendored
+
+# EOF
