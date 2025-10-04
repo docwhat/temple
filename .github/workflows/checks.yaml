@@ -27,7 +27,7 @@ jobs:
           restore-keys: ${{ runner.os }}-go-
       - run: ./script/bootstrap
       - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v4
+        uses: golangci/golangci-lint-action@v8
         with:
           version: latest
 
@@ -82,5 +82,4 @@ jobs:
           args: release --clean --snapshot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 # EOF

@@ -7,7 +7,7 @@ import (
 	"github.com/alecthomas/kong"
 )
 
-// nolint: gochecknoglobals
+//nolint:gochecknoglobals
 var (
 	version = "dev"
 	commit  = "none"
@@ -15,12 +15,12 @@ var (
 	builtBy = "unknown"
 )
 
-// nolint: lll
+//nolint:lll
 type CLI struct {
-	Version      kong.VersionFlag `name:"version" help:"Show version information"`
-	TemplateFile string           `env:"TEMPLE_TEMPLATE_FILE" arg:"" required:"" type:"existingfile" help:"The template file to use"`
-	DataFile     *os.File         `short:"d" name:"data" placeholder:"DATA-FILE" env:"TEMPLE_DATA_FILE" help:"A YAML or JSON file to use via the {{data.<foo>}} interface"`
-	HTML         bool             `short:"H" env:"TEMPLE_USE_HTML" help:"Use HTML templating instead of text templating"`
+	Version      kong.VersionFlag `help:"Show version information" name:"version"`
+	TemplateFile string           `arg:""                          env:"TEMPLE_TEMPLATE_FILE"                                         help:"The template file to use" required:""             type:"existingfile"`
+	DataFile     *os.File         `env:"TEMPLE_DATA_FILE"          help:"A YAML or JSON file to use via the {{data.<foo>}} interface" name:"data"                     placeholder:"DATA-FILE" short:"d"`
+	HTML         bool             `env:"TEMPLE_USE_HTML"           help:"Use HTML templating instead of text templating"              short:"H"`
 }
 
 func (cli *CLI) Run() error {
@@ -39,6 +39,7 @@ func (cli *CLI) Run() error {
 }
 
 func main() {
+	//nolint:exhaustruct
 	cli := CLI{}
 
 	ctx := kong.Parse(&cli,
