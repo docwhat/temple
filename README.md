@@ -52,8 +52,8 @@ JSON Example:
 
 ```json
 {
-  "key": "value",
-  "key2": 2
+    "key": "value",
+    "key2": 2
 }
 ```
 
@@ -74,41 +74,41 @@ Temple supports the complete list of [Sprig functions](http://masterminds.github
 
 ### Data Sources
 
-* `{{hostname}}` -- The systems fully qualified domain name.
-* `{{uid}}` -- `UID` of the user running `temple`.
-* `{{gid}}` -- `GID` of the user running `temple`.
-* `{{euid}}` -- Effective `UID` of the user running `temple`.
-* `{{egid}}` -- Effective `GID` of the user running `temple`.
-* `{{pwd}}` -- The current working directory.
-* `{{json}}` -- Access to your JSON data. Use dot notation to get access to items. e.g. `{{json.authors.greenwood.first_name}}`
+- `{{hostname}}` -- The systems fully qualified domain name.
+- `{{uid}}` -- `UID` of the user running `temple`.
+- `{{gid}}` -- `GID` of the user running `temple`.
+- `{{euid}}` -- Effective `UID` of the user running `temple`.
+- `{{egid}}` -- Effective `GID` of the user running `temple`.
+- `{{pwd}}` -- The current working directory.
+- `{{json}}` -- Access to your JSON data. Use dot notation to get access to items. e.g. `{{json.authors.greenwood.first_name}}`
 
 ### Functions
 
-* `{{index <expr> 99}}` -- The 99th item of the array `<expr>`.
-* `{{<expr> | js}}` -- `<expr>` escaped/quoted for JavaScript & JSON.
-* `{{<expr> | html}}` -- `<expr>` escaped/quoted for HTML.
-* `{{<expr> | urlquery}}` -- `<expr>` escaped/quoted for a URL quoting. i.e. replacing spaces with `+` and using `%NN` syntax.
-* `{{<expr> | shellquote}}` -- `<expr>` escaped/quoted for POSIX shells.
-* `{{<expr> | len}}` -- The length of the `<expr>`.
+- `{{index <expr> 99}}` -- The 99th item of the array `<expr>`.
+- `{{<expr> | js}}` -- `<expr>` escaped/quoted for JavaScript & JSON.
+- `{{<expr> | html}}` -- `<expr>` escaped/quoted for HTML.
+- `{{<expr> | urlquery}}` -- `<expr>` escaped/quoted for a URL quoting. i.e. replacing spaces with `+` and using `%NN` syntax.
+- `{{<expr> | shellquote}}` -- `<expr>` escaped/quoted for POSIX shells.
+- `{{<expr> | len}}` -- The length of the `<expr>`.
 
 ### Flow Control
 
-* `{{if <expr>}}true string{{else}}false string{{end}}` -- If/Else syntax. The `{{else}}` is optional.
-* `{{range <array>}} item: {{.}} {{else}} The list is empty {{end}}` -- Iterate over `<array>`. The `{{else}}` is optional.
+- `{{if <expr>}}true string{{else}}false string{{end}}` -- If/Else syntax. The `{{else}}` is optional.
+- `{{range <array>}} item: {{.}} {{else}} The list is empty {{end}}` -- Iterate over `<array>`. The `{{else}}` is optional.
 
 ### Miscellaneous
 
-* `{{<expr> -}}` -- Trim whitespace to the right. e.g. `{{1 -}} .0` becomes `1.0`.
-* `{{- <expr>}}` -- Trim whitespace to the left.
-* `{{- <expr> -}}` -- Trim whitespace to the right and left.
-* `{{/* comment */}}` -- Comments!
+- `{{<expr> -}}` -- Trim whitespace to the right. e.g. `{{1 -}} .0` becomes `1.0`.
+- `{{- <expr>}}` -- Trim whitespace to the left.
+- `{{- <expr> -}}` -- Trim whitespace to the right and left.
+- `{{/* comment */}}` -- Comments!
 
 ## Related Projects
 
-* [gomplate](https://github.com/hairyhenderson/gomplate)
+- [gomplate](https://github.com/hairyhenderson/gomplate)
 
 ## Thanks
 
-* [@alecthomas](https://github.com/alecthomas) for [kingpin](https://github.com/alecthomas/kingpin)
-* [@kballard](https://github.com/kballard) for [go-shellquote](https://github.com/kballard/go-shellquote)
-* [@seh](https://github.com/seh) for Go help
+- [@alecthomas](https://github.com/alecthomas) for [kingpin](https://github.com/alecthomas/kingpin)
+- [@kballard](https://github.com/kballard) for [go-shellquote](https://github.com/kballard/go-shellquote)
+- [@seh](https://github.com/seh) for Go help
