@@ -1,3 +1,4 @@
+version: 2
 # Make sure to check the documentation at https://goreleaser.com
 before:
   hooks:
@@ -24,37 +25,34 @@ builds:
       - "linux_ppc64le"
 archives:
   - id: default
-    replacements:
-      "darwin": "macos"
-      "386": "i386"
+    # Templates: allowed.
+    name_template: >-
+      {{- .ProjectName }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- if eq .Arch "darwin" }}macos
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- with .Arm }}v{{ . }}{{ end }}
+      {{- with .Mips }}_{{ . }}{{ end }}
+      {{- if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}`
   - id: binaries
-    format: binary
-    replacements:
-      "darwin": "macos"
-      "386": "i386"
-brews:
-  - ids:
-      - "default"
-    tap:
-      owner: docwhat
-      name: homebrew-tap
-    commit_author:
-      name: "goreleaserbot"
-      email: "docwhat@users.noreply.github.com"
-    test: |
-      system "#{bin}/temple --version"
-      system "#{bin}/temple /etc/hosts"
-    install: |
-      bin.install "temple"
-    folder: "Formula"
-    homepage: "https://github.com/docwhat/temple"
-    description: "Sick of sed? Prosaic about perl? Use temple to substitute your variables!"
-    license: "MIT"
+    formats: ["binary"]
+    name_template: >-
+      {{- .Binary }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- if eq .Arch "darwin" }}macos
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- with .Arm }}v{{ . }}{{ end }}
+      {{- with .Mips }}_{{ . }}{{ end }}
+      {{- if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}
 checksum:
   algorithm: sha256
   name_template: "checksums.sha256"
 snapshot:
-  name_template: "{{ incpatch .Version }}-next"
+  version_template: "{{ incpatch .Version }}-next"
 changelog:
   sort: asc
   use: github

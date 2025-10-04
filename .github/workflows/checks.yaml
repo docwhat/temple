@@ -12,12 +12,12 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v4
         with:
           go-version: ${{ env.GO_VERSION }}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         continue-on-error: true
         timeout-minutes: 2
         if: ${{ !env.ACT }}
@@ -26,17 +26,20 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
           restore-keys: ${{ runner.os }}-go-
       - run: ./script/bootstrap
-      - run: golangci-lint run ./...
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v8
+        with:
+          version: latest
 
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v4
         with:
           go-version: ${{ env.GO_VERSION }}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         continue-on-error: true
         timeout-minutes: 2
         if: ${{ !env.ACT }}
@@ -54,16 +57,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Fetch all tags
         run: git fetch --force --tags
       - run: sed -En 's/^go[[:space:]]+([[:digit:].]+)$/GO_VERSION=\1/p' go.mod >> $GITHUB_ENV
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v4
         with:
           go-version: ${{ env.GO_VERSION }}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         continue-on-error: true
         timeout-minutes: 2
         if: ${{ !env.ACT }}
@@ -79,3 +82,4 @@ jobs:
           args: release --clean --snapshot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# EOF
