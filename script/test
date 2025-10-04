@@ -30,15 +30,15 @@ function inc_color {
   if ((global_color > 7)); then
     global_color=1
   fi
-  printf "%d" "$global_color"
+  printf "%d" "${global_color}"
 }
 
 function colorpipe {
   local c=$1 line
 
   while read -r line; do
-    tput setaf "$c"
-    printf "\t%s" "$line"
+    tput setaf "${c}"
+    printf "\t%s" "${line}"
     tput sgr0
     echo
   done
@@ -59,7 +59,7 @@ function runc {
     global_color=2
   fi
 
-  "$@" | colorpipe "$global_color" || failures=$((failures + 1))
+  "$@" | colorpipe "${global_color}" || failures=$((failures + 1))
 }
 
 header "Running tests..."
@@ -67,7 +67,7 @@ runc go test ./... -v
 
 header "Running examples..."
 for example in examples/*; do
-  if [ ! -d "$example" ]; then
+  if [[ ! -d ${example} ]]; then
     continue
   fi
 
@@ -78,22 +78,22 @@ for example in examples/*; do
   yaml=$(compgen -G "${example}/*.yaml" || :)
   TODAY_IS=$(date '+%x')
 
-  if [ -r "${json}" ] || [ -r "${yaml}" ]; then
-    if [ -r "${json}" ]; then
-      runc env "TODAY_IS=$TODAY_IS" RUNNING_WITH=json-data go run ./... --data "$json" "$template"
+  if [[ -r ${json} ]] || [[ -r ${yaml} ]]; then
+    if [[ -r ${json} ]]; then
+      runc env "TODAY_IS=${TODAY_IS}" RUNNING_WITH=json-data go run ./... --data "${json}" "${template}"
     fi
-    if [ -r "${yaml}" ]; then
-      runc env "TODAY_IS=$TODAY_IS" RUNNING_WITH=yaml-data go run ./... --data "$yaml" "$template"
+    if [[ -r ${yaml} ]]; then
+      runc env "TODAY_IS=${TODAY_IS}" RUNNING_WITH=yaml-data go run ./... --data "${yaml}" "${template}"
     fi
   else
-    runc env "TODAY_IS=$TODAY_IS" RUNNING_WITH=env go run ./... "$template"
+    runc env "TODAY_IS=${TODAY_IS}" RUNNING_WITH=env go run ./... "${template}"
   fi
 done
 
 if ((failures > 0)); then
   tput setaf 1 # red
   tput bold
-  printf "FAILURES: %d\n" "$failures"
+  printf "FAILURES: %d\n" "${failures}"
   tput sgr0
   exit 1
 fi
